@@ -16,7 +16,7 @@ module Chapter1.Exercise6 where
 -- >>> newIf ((==) 1 1) 0 5
 -- 0
 
--- | Delighted, Alyssa uses `newIf` to rewrtie the square-root program:
+-- | Delighted, Alyssa uses `newIf` to rewrite the square-root program:
 
     sqrtIter :: (Real x, Fractional x) => x -> x -> x
     sqrtIter guess x = 
