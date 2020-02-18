@@ -1,5 +1,5 @@
-module Chapter1.TUtilities (chapter1UtilitiesTests) where
-    import Chapter1.Utilities (sqrt_)
+module Chapter1.TExercise6 (chapter1Exercise6Tests) where
+    import Chapter1.Exercise6 (sqrt_)
     import Test.HUnit
     import Control.Monad (unless)
 
@@ -25,7 +25,7 @@ module Chapter1.TUtilities (chapter1UtilitiesTests) where
         (sqrt_ 3)
         (sqrt 3))
 
-    chapter1UtilitiesTests :: Test
-    chapter1UtilitiesTests = TestList [tPowersOfTwo, tVsPrelude]
+    chapter1Exercise6Tests :: Test
+    chapter1Exercise6Tests = TestList [tPowersOfTwo, tVsPrelude]
 
 
