@@ -1,11 +1,33 @@
 module Chapter1.Exercise7 where
--- | The `goodEnough` test ued in computing square-roots will not be very
+    import Chapter1.Utilities (improve, half)
+-- | The `goodEnough` test used in computing square-roots will not be very
 -- | effective for finding the square-roots of very small numbers. Also, in
 -- | real computers, arithmetic operations are almost always performed with
 -- | limited precision. This makes our test inadequate for very large numbers.
 -- | Explain these statements, with examples showing how the test fails for very 
--- | small and large numbers. An alternative strategy for implementing
--- | `goodEnough` is to watch how `guess` changes from one iteration to the
--- | next and to stop when the change is a very small fraction of of the guess.
--- | Design a square-root procedure that uses this kind of test. Does this work
--- | better for small and large numbers?
+-- | small and large numbers.
+
+-- | When attempting to sqrt small numbers, the previous `goodEnough` test
+-- | will fail as the value of x approaches the threshold value. See
+-- | Chapter1.TExercise7.tSmallNumbers.
+-- | When attempting to sqrt large numbers, the previous `goodEnough` test
+-- | will fail as the threshold value cannot be represented - it will be
+-- | rounded down to zero. See Chapter1.TExercise7.tLargeNumbers.
+
+-- | An alternative strategy for implementing `goodEnough` is to watch how
+-- | `guess` changes from one iteration to the next and to stop when the change 
+-- | is a very small fraction of of the guess. Design a square-root procedure
+-- | that uses this kind of test. Does this work better for small and large
+-- | numbers?
+
+    sqrt_ :: (Real x, Fractional x) => x -> x
+    sqrt_ x = sqrtIter x (half x) x
+
+    sqrtIter :: (Real x, Fractional x) => x -> x -> x -> x
+    sqrtIter old new x
+        | goodEnough old new = new
+        | otherwise = sqrtIter new (improve new x) x
+
+    goodEnough :: (Real x, Fractional x) => x -> x -> Bool
+    goodEnough old new = abs (1.0 - old / new) < threshold
+        where threshold = 0.001
