@@ -17,23 +17,22 @@ module Chapter1.TExercise7 (chapter1Exercise7Tests) where
         (Exercise7.sqrt_ 3)
         (sqrt 3))
 
-    tSmallNumbers, tLargeNumbers :: Test
+    tSmallNumbers :: Test
 -- | Use half x as the initial guess in sqrtIter
     tSmallNumbers = TestCase (assertEqual
         "Exercise6.sqrt_ failing at small numbers"
         (0.0005 :: Double)
         (Exercise6.sqrt_ 0.001))
 
-    tLargeNumbers = TestCase (assertEqual
-        "Exercise6.sqrt_ failing at large numbers"
-        (5e99 :: Double)
-        (Exercise6.sqrt_ 1e1000))
+    -- tLargeNumbers = TestCase (assertEqual
+    --     "Exercise6.sqrt_ failing at large numbers"
+    --     (5e99 :: Double)
+    --     (Exercise6.sqrt_ 1e100))
 
     chapter1Exercise7Tests :: Test
     chapter1Exercise7Tests = TestList [
         tPowersOfTwo,
         tVsPrelude,
-        tSmallNumbers,
-        tLargeNumbers]
+        tSmallNumbers]
 
 
