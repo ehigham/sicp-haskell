@@ -1,4 +1,4 @@
-module Chapter1.Exercise7 where
+module Chapter1.Exercise7 (sqrt') where
     import Chapter1.Utilities (improve, half)
 -- | The `goodEnough` test used in computing square-roots will not be very
 -- | effective for finding the square-roots of very small numbers. Also, in
@@ -10,8 +10,8 @@ module Chapter1.Exercise7 where
 -- | When attempting to sqrt small numbers, the previous `goodEnough` test
 -- | will fail as the value of x approaches the threshold value. See
 -- | Chapter1.TExercise7.tSmallNumbers.
--- | When attempting to sqrt large numbers, the previous `goodEnough` test
--- | will fail as the threshold value cannot be represented - it will be
+-- | When attempting to sqrt large numbers, the previous `goodEnough` test will
+-- | fail as the threshold value cannot be represented, instead it will be
 -- | rounded down to zero. See Chapter1.TExercise7.tLargeNumbers.
 
 -- | An alternative strategy for implementing `goodEnough` is to watch how
@@ -20,8 +20,11 @@ module Chapter1.Exercise7 where
 -- | that uses this kind of test. Does this work better for small and large
 -- | numbers?
 
-    sqrt_ :: (Real x, Fractional x) => x -> x
-    sqrt_ x = sqrtIter x (half x) x
+-- | See TExercise7, demonstrating the improved behaviour of goodEnough for
+-- | small and large values.
+
+    sqrt' :: (Real x, Fractional x) => x -> x
+    sqrt' x = sqrtIter x (half x) x
 
     sqrtIter :: (Real x, Fractional x) => x -> x -> x -> x
     sqrtIter old new x

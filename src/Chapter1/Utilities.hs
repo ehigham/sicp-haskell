@@ -4,10 +4,10 @@ module Chapter1.Utilities (improve, average, half, square) where
     improve guess x = average guess (x / guess)
 
     average :: (Fractional x) => x -> x -> x
-    average x y = half $ x + y;
+    average = (half .) . (+)
 
     half :: (Fractional x) => x -> x
-    half x = x / 2.0
+    half = (/ 2.0)
 
     square :: (Num x) => x -> x
     square x = x * x

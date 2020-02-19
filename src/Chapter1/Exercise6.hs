@@ -1,9 +1,9 @@
-module Chapter1.Exercise6 (sqrt_) where
+module Chapter1.Exercise6 (sqrt') where
     import Chapter1.Utilities (improve, square, half)
     
     -- append `_` to diambiguate with Prelude.sqrt
-    sqrt_ :: (Real x, Fractional x) => x -> x
-    sqrt_ x = sqrtIter (half x) x
+    sqrt' :: (Real x, Fractional x) => x -> x
+    sqrt' x = sqrtIter (half x) x
 
     sqrtIter :: (Real x, Fractional x) => x -> x -> x
     sqrtIter guess x
@@ -39,6 +39,7 @@ module Chapter1.Exercise6 (sqrt_) where
 -- @
 
 -- | What happens when Alyssa attempts to use this to compute square roots?
--- | The program will loop indefinitely while it tries to call `sqrtIter` on
--- | the improved guess. The built-in `if` evaluates the consequent and
--- | alternative as that branch is taken.
+-- | - Scheme uses applicative order evaluation and so the program will loop
+-- | indefinitely while the arguments to newIf are evaluated.
+-- | - Haskell uses lazy evaluation meaning expressions are evaluated when they
+-- | are needed. Thus, newIf will work!
