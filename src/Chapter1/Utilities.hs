@@ -10,4 +10,7 @@ module Chapter1.Utilities (improve, average, half, square) where
     half = (/ 2.0)
 
     square :: (Num x) => x -> x
-    square x = x * x
+    square = (^ 2)
+
+    cube :: (Num x) => x -> x
+    cube = (^ 3)

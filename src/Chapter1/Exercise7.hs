@@ -1,4 +1,4 @@
-module Chapter1.Exercise7 (sqrt') where
+module Chapter1.Exercise7 (sqrt', goodEnough) where
     import Chapter1.Utilities (improve, half)
 -- | The `goodEnough` test used in computing square-roots will not be very
 -- | effective for finding the square-roots of very small numbers. Also, in
