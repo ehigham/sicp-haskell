@@ -1,4 +1,4 @@
-module Chapter1.TExercise8 (chapter1Exercise8Tests) where
+module Chapter1.TExercise8 (tests) where
     import Chapter1.Exercise8 (cbrt')
     import TestTools (assertEquals)
     import Test.HUnit
@@ -22,7 +22,7 @@ module Chapter1.TExercise8 (chapter1Exercise8Tests) where
         (3.0 ** (1.0/3.0))
         (cbrt' 3))
 
-    chapter1Exercise8Tests :: Test
-    chapter1Exercise8Tests = TestList [tThreeCubed, tFiveCubed, tVsPrelude]
+    tests :: Test
+    tests = TestList [tThreeCubed, tFiveCubed, tVsPrelude]
 
 
