@@ -22,5 +22,20 @@ module Chapter1.Exercise14 (countChange) where
         | kinds == 4 = 25
         | otherwise = 50
 
-    
-
+-- >>> countChange 11
+-- (cc 5 11)
+--     | (cc 5 -39)
+--          | -*-> 0
+--     | (cc 4 11) 
+--           | (cc 4 -14)
+--               | -> 0
+--           | (cc 3 11)
+--               | (cc 3 1)
+--                   | -> 1
+--               | (cc 2 11)
+--                   | (cc 2 6)
+--                       | (cc 1 6)
+--                           | -> 1
+--                       | (c 2 1)
+--                           | -> 1
+--                   | -> 1
