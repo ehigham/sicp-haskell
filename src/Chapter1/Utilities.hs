@@ -1,4 +1,4 @@
-module Chapter1.Utilities (improve, average, half, square) where
+module Chapter1.Utilities (improve, average, half, square, cube) where
 
     improve :: (Fractional x) => x -> x -> x
     improve guess x = average guess (x / guess)
