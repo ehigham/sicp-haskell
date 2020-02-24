@@ -18,6 +18,6 @@ module TestTools (assertEquals) where
         = abs (if isZero expected then actual else (1.0 - actual / expected))
 
     isZero :: Double -> Bool
-    isZero = (< someSmallNumber) where someSmallNumber = 1e-100
+    isZero = (< someSmallNumber) . abs where someSmallNumber = 1e-100
 
                     
