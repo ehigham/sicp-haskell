@@ -1,16 +1,16 @@
-module Chapter1.Utilities (improve, average, half, square, cube) where
+module Chapter1.Utilities (improve, average, halve, square, cube) where
 
     improve :: (Fractional x) => x -> x -> x
     improve guess x = average guess (x / guess)
 
     average :: (Fractional x) => x -> x -> x
-    average = (half .) . (+)
+    average = (halve .) . (+)
 
-    half :: (Fractional x) => x -> x
-    half = (/ 2.0)
+    halve :: (Fractional x) => x -> x
+    halve = (* 0.5)
 
     square :: (Num x) => x -> x
-    square = (^ 2)
+    square x = x * x
 
     cube :: (Num x) => x -> x
-    cube = (^ 3)
+    cube x = x * x * x

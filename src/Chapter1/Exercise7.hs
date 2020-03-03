@@ -1,5 +1,5 @@
 module Chapter1.Exercise7 (sqrt', goodEnough) where
-    import Chapter1.Utilities (improve, half)
+    import Chapter1.Utilities (improve, halve)
 -- | The `goodEnough` test used in computing square-roots will not be very
 -- | effective for finding the square-roots of very small numbers. Also, in
 -- | real computers, arithmetic operations are almost always performed with
@@ -24,7 +24,7 @@ module Chapter1.Exercise7 (sqrt', goodEnough) where
 -- | small and large values.
 
     sqrt' :: (Real x, Fractional x) => x -> x
-    sqrt' x = sqrtIter x (half x) x
+    sqrt' x = sqrtIter x (halve x) x
 
     sqrtIter :: (Real x, Fractional x) => x -> x -> x -> x
     sqrtIter old new x

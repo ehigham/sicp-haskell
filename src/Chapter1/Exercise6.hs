@@ -1,9 +1,9 @@
 module Chapter1.Exercise6 (sqrt') where
-    import Chapter1.Utilities (improve, square, half)
+    import Chapter1.Utilities (improve, square, halve)
     
     -- append `_` to diambiguate with Prelude.sqrt
     sqrt' :: (Real x, Fractional x) => x -> x
-    sqrt' x = sqrtIter (half x) x
+    sqrt' x = sqrtIter (halve x) x
 
     sqrtIter :: (Real x, Fractional x) => x -> x -> x
     sqrtIter guess x

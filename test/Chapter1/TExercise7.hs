@@ -18,7 +18,7 @@ module Chapter1.TExercise7 (chapter1Exercise7Tests) where
         (sqrt 3))
 
     tSmallNumbers :: Test
--- | Use half x as the initial guess in sqrtIter
+-- | Use halve x as the initial guess in sqrtIter
     tSmallNumbers = TestCase (assertEqual
         "Exercise6.sqrt' failing at small numbers"
         (0.0005 :: Double)
@@ -32,7 +32,7 @@ module Chapter1.TExercise7 (chapter1Exercise7Tests) where
     --     (Exercise6.sqrt' 1e100))
 
     tSmallNumbersImproved :: Test
--- | As before, use half x as the initial guess in sqrtIter
+-- | As before, use halve x as the initial guess in sqrtIter
 -- | Test case for improved goodEnough
     tSmallNumbersImproved = TestCase (assertEquals
         "(sqrt' 0.0001) - (sqrt 0.0001) < 0.001"
