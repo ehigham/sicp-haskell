@@ -12,13 +12,13 @@ module Chapter1.Exercise16 (fastExpt, fastExpt') where
 -- | unchanged from state to state is a powerful way to think about the design 
 -- | of iterative algorithms).
 
-    fastExpt :: (Real x, Integral y) => x -> y -> x
+    fastExpt :: (Integral x) => x -> x -> x
     fastExpt b n 
         | n == 0 = 1
         | even n = square $ fastExpt b (halve n)
         | otherwise = b * fastExpt b (n - 1)
 
-    fastExpt' :: (Real x, Integral y) => x -> y -> x
+    fastExpt' :: (Integral x) => x -> x -> x
     fastExpt' = go 1
         where
             go a b n

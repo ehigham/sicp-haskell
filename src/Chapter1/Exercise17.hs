@@ -15,7 +15,7 @@ module Chapter1.Exercise17 (mult, fastMult) where
 -- | Using these, design a multiplication procedure analogous to `fastExpt`
 -- | that uses a logarithmic number of steps.
 
-    fastMult :: (Real x, Integral x) => x -> x -> x
+    fastMult :: (Integral x) => x -> x -> x
     fastMult a b
             | b == 0 = 0
             | even b = double $ fastMult a (halve b)

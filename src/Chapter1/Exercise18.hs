@@ -3,7 +3,7 @@ module Chapter1.Exercise18 (fastMult) where
 -- | generates an iterative process for multiplying two integers in terms of
 -- | adding, doubling and halving and uses a logarithmic number of steps.
     
-    fastMult :: (Real x, Integral x) => x -> x -> x
+    fastMult :: (Integral x) => x -> x -> x
     fastMult = go 0
         where
             go acc a b
