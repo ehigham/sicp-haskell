@@ -3,8 +3,6 @@ module Chapter1.TExercise16 (tests) where
     import Control.Monad (ap)
     import Test.HUnit
 
-    
-
     testBothEqualTo :: Int -> Int -> Int -> Test
     testBothEqualTo b n res = TestList [
         TestCase(assertEqual ("fastExpt "++inputs) (go fastExpt) res),
