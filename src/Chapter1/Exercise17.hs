@@ -16,11 +16,10 @@ module Chapter1.Exercise17 (mult, fastMult) where
 -- | that uses a logarithmic number of steps.
 
     fastMult :: (Real x, Integral x) => x -> x -> x
-    fastMult = go 0
+    fastMult a b
+            | b == 0 = 0
+            | even b = double $ fastMult a (halve b)
+            | otherwise = a + fastMult a (b - 1)
         where
-            go acc a b
-                | b == 0 = acc
-                | even b = go acc (double a) (halve b)
-                | otherwise = go (acc + a) a (b - 1)
             double x = x + x
             halve x = x `div` 2
