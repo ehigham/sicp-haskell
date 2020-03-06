@@ -12,7 +12,7 @@ module Chapter1.Exercise22 (timedPrimeTest) where
     timedPrimeTest :: (Integral n, Show n) => n -> IO ()
     timedPrimeTest n = do
             putStr (show n)
-            (prime, time) <- timeIt . return $ isPrime n
+            (prime, time) <- timeIt $ return (isPrime n)
             when prime $ reportPrime time
             newLine
         where
