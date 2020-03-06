@@ -1,8 +1,8 @@
-module Chapter1.Exercise22 (timedPrimeTest) where
+module Chapter1.Exercise22 (makeSearchForPrimes) where
     import Chapter1.Exercise21 (smallestDivisor)
-    import Control.Exception (evaluate)
+    import Chapter1.Utilities (timeIt)
     import Control.Monad (when)
-    import Data.Time.Clock
+
 -- | Most Lisp implementations include a primative called `runtime` that returns
 -- | an integer that specifies the amount of time the system has been running
 -- | (measured, for example, in microseconds). The following `timedPrimeTest`,
@@ -10,26 +10,18 @@ module Chapter1.Exercise22 (timedPrimeTest) where
 -- | prime. If `n` is prime, the procedure prints three asterisks followed by
 -- | the amount of time used in performing the test.
 
-    timedPrimeTest :: (Integral n, Show n) => n -> IO ()
-    timedPrimeTest n = do
+-- | Modified definition for re-use with Exercise23:
+
+    timedPrimeTest :: (Integral n, Show n) => (n -> Bool) -> n -> IO ()
+    timedPrimeTest isPrime n = do
         putStr (show n)
         (prime, time) <- timeIt $ isPrime n
         when prime $ reportPrime time
       where
         newLine = putStrLn ""
 
-    isPrime :: (Integral n) => n -> Bool
-    isPrime n = n == (smallestDivisor n)
-
     reportPrime :: (Show n) => n -> IO ()
     reportPrime time = putStrLn (" *** " ++ show time)
-
-    timeIt :: a -> IO (a, NominalDiffTime)
-    timeIt f = do
-        start <- getCurrentTime
-        a <- evaluate f
-        finish <- getCurrentTime
-        return (a, diffUTCTime finish start)
 
 -- | Using this procedure, write a procedure `searchForPrimes` that checks the
 -- | primality of consecutive odd integers in a specified range. Use your
@@ -44,8 +36,11 @@ module Chapter1.Exercise22 (timedPrimeTest) where
 -- | proportional to the number of steps required for the computation?
 
     searchForPrimes :: (Integral n, Show n) => n -> IO ()
-    searchForPrimes n = do
-        sequence $ take 3 $ fmap timedPrimeTest $ primes
+    searchForPrimes = makeSearchForPrimes isPrime
+
+    makeSearchForPrimes :: (Integral n, Show n) => (n -> Bool) -> n -> IO ()
+    makeSearchForPrimes isPrime n = do
+        sequence $ take 3 $ fmap (timedPrimeTest isPrime) $ primes
         return ()
       where
         primes = [p | p <- [(from n)..], isPrime p]
@@ -53,6 +48,10 @@ module Chapter1.Exercise22 (timedPrimeTest) where
             | isPrime n = n
             | even n    = from (n + 1)
             | otherwise = from (n + 2)
+
+    isPrime :: (Integral n) => n -> Bool
+    isPrime n = n == (smallestDivisor n)
+
 
 -- | As of 2020, there's too much noise in the timings below ~100,000 so we'll
 -- | start our test from here.

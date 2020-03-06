@@ -1,4 +1,15 @@
-module Chapter1.Utilities (improve, average, halve, square, cube) where
+module Chapter1.Utilities (
+    improve,
+    average,
+    halve,
+    square,
+    cube,
+    divides,
+    timeIt
+    ) where
+
+    import Control.Exception (evaluate)
+    import Data.Time.Clock
 
     improve :: (Fractional x) => x -> x -> x
     improve guess x = average guess (x / guess)
@@ -14,3 +25,13 @@ module Chapter1.Utilities (improve, average, halve, square, cube) where
 
     cube :: (Num x) => x -> x
     cube x = x * x * x
+
+    divides :: (Integral n) => n -> n -> Bool
+    divides x y = y `mod` x == 0
+
+    timeIt :: a -> IO (a, NominalDiffTime)
+    timeIt f = do
+        start <- getCurrentTime
+        a <- evaluate f
+        finish <- getCurrentTime
+        return (a, diffUTCTime finish start)
