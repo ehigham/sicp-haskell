@@ -42,3 +42,19 @@ module Chapter1.Exercise22 (timedPrimeTest) where
 -- | 100,000 and 1,000,000 support the (sqrt n) prediction? Is your result
 -- | compatible with the notion that programs on your machine run in time
 -- | proportional to the numbre of steps required for the computation?
+
+    searchForPrimes :: (Integral n) => n -> IO[(n, NominalDiffTime)]
+    searchForPrimes n = sequence $ fmap g primes
+        where
+            primes = [p | p <- [p0..], isPrime p]
+            p0 = findFirstPrime n
+            g x = do
+                (_, time) <- timeIt $ return ( isPrime x )
+                return (x, time)
+    
+    findFirstPrime :: (Integral n) => n -> n
+    findFirstPrime n
+        | n < 3     = 2
+        | even n    = findFirstPrime (succ n)
+        | isPrime n = n
+        | otherwise = findFirstPrime (n + 2)
