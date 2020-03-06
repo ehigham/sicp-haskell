@@ -21,6 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/ehig
 
 dependencies:
 - base >= 4.7 && < 5
+- time >= 1.8
 
 library:
   source-dirs: src
@@ -31,6 +32,8 @@ tests:
     source-dirs:
     - test
     ghc-options:
+    - -O0
+    - -g
     - -Wall
     - -Wextra
     - -Werror
