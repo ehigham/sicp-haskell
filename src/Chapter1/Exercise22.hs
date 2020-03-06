@@ -1,5 +1,6 @@
 module Chapter1.Exercise22 (timedPrimeTest) where
     import Chapter1.Exercise21 (smallestDivisor)
+    import Control.Exception (evaluate)
     import Control.Monad (when)
     import Data.Time.Clock
 -- | Most Lisp implementations include a primative called `runtime` that returns
@@ -12,22 +13,22 @@ module Chapter1.Exercise22 (timedPrimeTest) where
     timedPrimeTest :: (Integral n, Show n) => n -> IO ()
     timedPrimeTest n = do
             putStr (show n)
-            (prime, time) <- timeIt $ return (isPrime n)
+            (prime, time) <- timeIt $ isPrime n
             when prime $ reportPrime time
             newLine
         where
             newLine = putStrLn ""
-    
+
     isPrime :: (Integral n) => n -> Bool
     isPrime n = n == (smallestDivisor n)
 
     reportPrime :: (Show n) => n -> IO ()
     reportPrime time = putStrLn (" *** " ++ show time)
 
-    timeIt :: IO a -> IO (a, NominalDiffTime)
-    timeIt ma = do
+    timeIt :: a -> IO (a, NominalDiffTime)
+    timeIt f = do
             start <- getCurrentTime
-            a <- ma
+            a <- evaluate f
             finish <- getCurrentTime
             return (a, diffUTCTime finish start)
 
@@ -49,9 +50,9 @@ module Chapter1.Exercise22 (timedPrimeTest) where
             primes = [p | p <- [p0..], isPrime p]
             p0 = findFirstPrime n
             g x = do
-                (_, time) <- timeIt $ return ( isPrime x )
+                (_, time) <- timeIt $ isPrime x
                 return (x, time)
-    
+
     findFirstPrime :: (Integral n) => n -> n
     findFirstPrime n
         | n < 3     = 2
