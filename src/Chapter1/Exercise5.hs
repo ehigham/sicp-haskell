@@ -1,5 +1,5 @@
 module Chapter1.Exercise5 where
--- | Ben Bitdiddle has invented a tet tot determine whether the interpreter
+-- | Ben Bitdiddle has invented a test to determine whether the interpreter
 -- | he is faced with using applicative-order evaluation or normal-order
 -- | evaluation. He defines the following two procedures:
     p = p
@@ -10,7 +10,7 @@ module Chapter1.Exercise5 where
 -- >>> main = print $ test 0 p
 --
 -- | What behaviour will Ben observe with an interpreter that uses applicative-
--- | oder evaluation? What behaviour will Ben observe with an interpreter that
+-- | order evaluation? What behaviour will Ben observe with an interpreter that
 -- | uses normal-order evaluation? Explain your answer.
 --
 -- | Applicative-Ordering:

@@ -9,7 +9,7 @@ module Chapter1.Exercise17 (mult, fastMult) where
         | b == 0 = 0
         | otherwise = a + mult a (b - 1)
 
--- | This algorithm takes a umber of steps that is linear in b. Now suppose
+-- | This algorithm takes a number of steps that is linear in b. Now suppose
 -- | we include, together with addition, the operations `double` (which
 -- | doubles an integer) and `halve` which divides an even integer by two.
 -- | Using these, design a multiplication procedure analogous to `fastExpt`
