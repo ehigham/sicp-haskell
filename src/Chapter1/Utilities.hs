@@ -1,4 +1,5 @@
 module Chapter1.Utilities (
+    double,
     improve,
     average,
     halve,
@@ -10,6 +11,9 @@ module Chapter1.Utilities (
 
     import Control.Exception (evaluate)
     import Data.Time.Clock
+
+    double :: (Num x) => x -> x
+    double x = x + x
 
     improve :: (Fractional x) => x -> x -> x
     improve guess x = average guess (x / guess)

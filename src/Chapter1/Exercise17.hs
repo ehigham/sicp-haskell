@@ -1,4 +1,5 @@
 module Chapter1.Exercise17 (mult, fastMult) where
+    import Chapter1.Utilities (double)
 -- | The exponentiation algorithms in this section are based on performing
 -- | exponentiation by means of repeated multiplication. In a similiar way, one
 -- | can perform integer multiplication by means of repeated addition. The
@@ -21,5 +22,4 @@ module Chapter1.Exercise17 (mult, fastMult) where
             | even b = double $ fastMult a (halve b)
             | otherwise = a + fastMult a (b - 1)
         where
-            double x = x + x
             halve x = x `div` 2

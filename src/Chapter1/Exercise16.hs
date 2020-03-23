@@ -27,4 +27,4 @@ module Chapter1.Exercise16 (fastExpt, fastExpt') where
                 | otherwise = go (a * b) b (n - 1)
 
     halve :: (Integral x) => x -> x
-    halve = div 2
+    halve x = x `div` 2
