@@ -1,9 +1,9 @@
 module Chapter1.Exercise17 (mult, fastMult) where
-    import Chapter1.Utilities (double)
+    import Chapter1.Utilities (double, halveI)
 -- | The exponentiation algorithms in this section are based on performing
 -- | exponentiation by means of repeated multiplication. In a similiar way, one
 -- | can perform integer multiplication by means of repeated addition. The
--- | following multiplication procedure is analagous to the exp procedureL
+-- | following multiplication procedure is analagous to the exp procedure:
 
     mult :: (Real x) => x -> x -> x
     mult a b
@@ -19,7 +19,5 @@ module Chapter1.Exercise17 (mult, fastMult) where
     fastMult :: (Integral x) => x -> x -> x
     fastMult a b
             | b == 0 = 0
-            | even b = double $ fastMult a (halve b)
+            | even b = double $ fastMult a (halveI b)
             | otherwise = a + fastMult a (b - 1)
-        where
-            halve x = x `div` 2

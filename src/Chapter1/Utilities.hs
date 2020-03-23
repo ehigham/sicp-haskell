@@ -3,6 +3,7 @@ module Chapter1.Utilities (
     improve,
     average,
     halve,
+    halveI,
     square,
     cube,
     divides,
@@ -23,6 +24,9 @@ module Chapter1.Utilities (
 
     halve :: (Fractional x) => x -> x
     halve = (* 0.5)
+
+    halveI :: (Integral x) => x -> x
+    halveI x = x `div` 2
 
     square :: (Num x) => x -> x
     square x = x * x

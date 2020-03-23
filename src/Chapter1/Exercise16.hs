@@ -1,5 +1,5 @@
 module Chapter1.Exercise16 (fastExpt, fastExpt') where
-    import Chapter1.Utilities (square)
+    import Chapter1.Utilities (square, halveI)
 -- | Design a procedure that evolves an iterative exponentiation process that
 -- | uses successive squaring and uses a logarithmic number of steps, as does
 -- | `fastExpt`.
@@ -15,7 +15,7 @@ module Chapter1.Exercise16 (fastExpt, fastExpt') where
     fastExpt :: (Integral x) => x -> x -> x
     fastExpt b n
         | n == 0 = 1
-        | even n = square $ fastExpt b (halve n)
+        | even n = square $ fastExpt b (halveI n)
         | otherwise = b * fastExpt b (n - 1)
 
     fastExpt' :: (Integral x) => x -> x -> x
@@ -23,8 +23,5 @@ module Chapter1.Exercise16 (fastExpt, fastExpt') where
         where
             go a b n
                 | n == 0 = a
-                | even n = go a (square b) (halve n)
+                | even n = go a (square b) (halveI n)
                 | otherwise = go (a * b) b (n - 1)
-
-    halve :: (Integral x) => x -> x
-    halve x = x `div` 2
