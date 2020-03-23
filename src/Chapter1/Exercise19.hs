@@ -1,6 +1,6 @@
 module Chapter1.Exercise19 (fib) where
     import Chapter1.Utilities (square)
--- | There is a clever algorithm for computing the Fibonacci numbers in a 
+-- | There is a clever algorithm for computing the Fibonacci numbers in a
 -- | logarithmic number of steps. Recall the transformation of the state
 -- | variables `a` and `b` in the `fibIter` process of section 1.2.2:
 -- @
@@ -32,7 +32,7 @@ module Chapter1.Exercise19 (fib) where
 --              = b.p.q + a.q.q + b.q.(p + q) + a.(p + q).(p + q)
 --              = b.(2.p.q + q.q) + a.(q.q + (p + q)(p + q))
 --              = b.q.(2.p + q) + a.((p.p + q.q) + q.(2.p + q))
--- 
+--
 --      b'' <- b'.p + a'.q =  (b.p + a.q).p + (b.q + a.(p + q)).q
 --              = b.p.p + a.p.q + b.q.q + a.q.(p + q)
 --              = b.(p.p + q.q) + a.q.(2.p + q)
@@ -40,8 +40,8 @@ module Chapter1.Exercise19 (fib) where
 -- | By examining the original transformation, we have:
 -- @
 --      p' = p.p + q.q
---      q' = q.(2.p + q) 
--- @ 
+--      q' = q.(2.p + q)
+-- @
 -- | Put this all together to complete the following procedure, which runs in
 -- | a logarithmic number of steps:
 
@@ -52,5 +52,5 @@ module Chapter1.Exercise19 (fib) where
                 | count == 0 = b
                 | even count = go a b (p' p q) (q' p q) (count `div` 2)
                 | otherwise = go (b*q + a*(p + q)) (b*p + a*q) p q (count - 1)
-            p' p q = (square p) + (square q)
+            p' p q = square p + square q
             q' p q = q * (2 * p + q)

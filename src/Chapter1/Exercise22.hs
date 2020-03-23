@@ -39,9 +39,8 @@ module Chapter1.Exercise22 (makeSearchForPrimes) where
     searchForPrimes = makeSearchForPrimes isPrime
 
     makeSearchForPrimes :: (Integral n, Show n) => (n -> Bool) -> n -> IO ()
-    makeSearchForPrimes isPrime n = do
-        sequence $ take 3 $ fmap (timedPrimeTest isPrime) $ primes
-        return ()
+    makeSearchForPrimes isPrime n
+        = sequence_ $ take 3 $ fmap (timedPrimeTest isPrime) primes
       where
         primes = [p | p <- [(from n)..], isPrime p]
         from n
@@ -50,8 +49,7 @@ module Chapter1.Exercise22 (makeSearchForPrimes) where
             | otherwise = from (n + 2)
 
     isPrime :: (Integral n) => n -> Bool
-    isPrime n = n == (smallestDivisor n)
-
+    isPrime n = n == smallestDivisor n
 
 -- | As of 2020, there's too much noise in the timings below ~100,000 so we'll
 -- | start our test from here.

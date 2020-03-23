@@ -7,7 +7,7 @@ module Chapter1.Exercise21 where
     smallestDivisor = go 2
       where
         go test n
-            | (square test) > n = n
+            | square test > n   = n
             | test `divides` n  = test
             | otherwise         = go (succ test) n
 

@@ -15,7 +15,7 @@ module Chapter1.Exercise15 (sine, p) where
     sine x = if sufficentlySmall x then x else p . sine . (/ 3) $ x
 
     sufficentlySmall :: (Real x, Fractional x) => x -> Bool
-    sufficentlySmall = not . (> threshold) . abs
+    sufficentlySmall = (<= threshold) . abs
         where threshold = 0.1
 
     p :: (Real x, Fractional x) => x -> x

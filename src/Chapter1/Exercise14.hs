@@ -8,12 +8,12 @@ module Chapter1.Exercise14 (countChange) where
     countChange = cc 5
 
     cc :: Int -> Int -> Int
-    cc kinds amount = if amount == 0
-        then 1
-        else if (amount < 0 || kinds == 0)
-            then 0
-            else (cc (kinds - 1) amount) + (cc kinds (amount - firstDenomination kinds))
-    
+    cc kinds amount
+        | amount == 0              = 1
+        | amount < 0 || kinds == 0 = 0
+        | otherwise                = cc (kinds - 1) amount
+                                     + cc kinds (amount - firstDenomination kinds)
+
     firstDenomination :: Int -> Int
     firstDenomination kinds
         | kinds == 1 = 1
@@ -25,7 +25,7 @@ module Chapter1.Exercise14 (countChange) where
 -- >>> countChange 11
 -- (cc 5 11)
 --     | (cc 5 -39) -> 0
---     | (cc 4 11) 
+--     | (cc 4 11)
 --           | (cc 4 -14) -> 0
 --           | (cc 3 11)
 --               | (cc 3 1)
@@ -50,11 +50,11 @@ module Chapter1.Exercise14 (countChange) where
 --                                           | (cc 1 1)
 --                                               | (cc 0 1) -> 0
 --                                               | (cc 1 0) -> 1
---                       | (cc 2 1) 
+--                       | (cc 2 1)
 --                           | (cc 1 1)
 --                               | (cc 0 1) -> 0
 --                               | (cc 1 0) -> 1
---                           | (cc 2 -4) -> 0 
+--                           | (cc 2 -4) -> 0
 --                   | (cc 1 11)
 --                       | (cc 0 11) -> 0
 --                       | (cc 1 10)
