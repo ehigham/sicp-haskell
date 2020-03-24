@@ -16,6 +16,7 @@ module Chapter1.Spec (chapter1_tests) where
     import Chapter1.TExercise18
     import Chapter1.TExercise19
     import Chapter1.TExercise21
+    import Chapter1.TExercise24
 
     chapter1_tests :: Test
     chapter1_tests = TestList[
@@ -34,4 +35,5 @@ module Chapter1.Spec (chapter1_tests) where
         Chapter1.TExercise17.tests,
         Chapter1.TExercise18.tests,
         Chapter1.TExercise19.tests,
-        Chapter1.TExercise21.tests]
+        Chapter1.TExercise21.tests,
+        Chapter1.TExercise24.tests]

@@ -1,4 +1,6 @@
 .stack-work/
 .vscode/
+dist-newstyle/*
 sicp-haskell.cabal
+*.lock
 *~
