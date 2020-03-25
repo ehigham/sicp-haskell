@@ -8,10 +8,10 @@ module Chapter1.Exercise27 (isCarmichael) where
 -- | try your procedure on the given Carmichael numbers
 
     isCarmichael :: (Integral n) => n -> Bool
-    isCarmichael = liftM2 (&&) foolsFermat (not . isPrime)
+    isCarmichael = liftM2 (&&) passesFermat (not . isPrime)
 
-    foolsFermat :: (Integral n) => n -> Bool
-    foolsFermat n = and $ fmap fermat [1..(n - 1)]
+    passesFermat :: (Integral n) => n -> Bool
+    passesFermat n = and $ fmap fermat [1..(n - 1)]
       where
         fermat a = a == expmod a n n
 
