@@ -1,13 +1,13 @@
 module Chapter1.Exercise24 (fastPrime) where
+    import Chapter1.Exercise22 (makeSearchForPrimes)
+    import Chapter1.Utilities (square, halveI)
+    import System.Random (RandomGen, Random, randomRs, newStdGen)
 -- | Modify the `timedPrimeTest` from exercise 1.22 to use `fastPrime` (the
 -- | Fermat method), to test each of the 12 primes you found in that exercise.
 -- | Since the Fermat method has Theta(log n) growth, how would you expect the
 -- | time to test primes near 1,000,000 to compare with the time needed to test
 -- | primes near 1,000? Do your data bear out? Can you explain the discrepancy
 -- | you find?
-    import Chapter1.Exercise22 (makeSearchForPrimes)
-    import Chapter1.Utilities (square, halveI)
-    import System.Random (RandomGen, Random, randomRs, getStdGen)
 
     fastPrime :: (RandomGen g,  Integral a, Random a) => g -> Int -> a -> Bool
     fastPrime gen times n = and $ fmap fermat randoms
@@ -22,10 +22,9 @@ module Chapter1.Exercise24 (fastPrime) where
         | otherwise = (base * expmod base (pred exp) m) `mod` m
 
     searchForPrimes :: (Integral n, Random n, Show n) => n -> IO ()
-    searchForPrimes n = do
-        gen <- getStdGen
-        makeSearchForPrimes (fastPrime gen times) n
+    searchForPrimes n = newStdGen >>= runSearch
       where
+        runSearch gen = makeSearchForPrimes (fastPrime gen times) n
         times = 10 :: Int
 
 -- >>> searchForPrimes 100000
