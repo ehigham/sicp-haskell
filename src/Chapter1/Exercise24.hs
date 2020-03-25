@@ -10,7 +10,7 @@ module Chapter1.Exercise24 (fastPrime) where
     import System.Random (RandomGen, Random, randomRs, getStdGen)
 
     fastPrime :: (RandomGen g,  Integral a, Random a) => g -> Int -> a -> Bool
-    fastPrime gen times n = foldl (\bool a -> bool && fermat a) True randoms
+    fastPrime gen times n = and $ fmap fermat randoms
       where
           fermat a = a == expmod a n n
           randoms = take times (randomRs (1, n - 1) gen)
