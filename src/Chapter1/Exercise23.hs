@@ -1,4 +1,4 @@
-module Chapter1.Exercise23 where
+module Chapter1.Exercise23 (isPrime) where
     import Chapter1.Exercise22 (makeSearchForPrimes)
     import Chapter1.Utilities (square, divides)
 -- | The `smallestDivisor` procedure shown at the start of this section does
@@ -14,7 +14,7 @@ module Chapter1.Exercise23 where
     smallestDivisor = go 2
         where
             go test n
-                | (square test) > n = n
+                | square test > n = n
                 | test `divides` n  = test
                 | otherwise         = go (next test) n
             next n = if n == 2 then 3 else n + 2

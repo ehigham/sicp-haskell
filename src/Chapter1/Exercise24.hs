@@ -1,4 +1,4 @@
-module Chapter1.Exercise24 (fastPrime) where
+module Chapter1.Exercise24 (fastPrime, expmod) where
     import Chapter1.Exercise22 (makeSearchForPrimes)
     import Chapter1.Utilities (square, halveI)
     import System.Random (RandomGen, Random, randomRs, newStdGen)
