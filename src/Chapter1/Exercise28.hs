@@ -30,13 +30,14 @@ module Chapter1.Exercise28 (isPrime) where
           times = fromIntegral $ halveI n
 
     expmod :: (Integral n) => n -> n -> n -> n
-    expmod base exp m = let x = oldexpmod base exp m in
-        if odd m && x /= 1 && x /= m - 1 && (square x) `mod` m == 1 then 0 else x
+    expmod base exp m = let x = go base exp m in if isNonTrivial x then 0 else x
       where
-        oldexpmod base exp m
+        go base exp m
             | exp == 0  = 1
             | even exp  = square (expmod base (halveI exp) m) `mod` m
             | otherwise = (base * expmod base (pred exp) m) `mod` m
+        isNonTrivial 1 = False
+        isNonTrivial x = odd m && x /= (m - 1) && (square x) `mod` m == 1
 
     isPrime :: (Integral n, Random n) => n -> IO Bool
     isPrime n = newStdGen >>= \g -> return (fastPrime g n)
