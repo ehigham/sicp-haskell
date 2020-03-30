@@ -7,5 +7,5 @@ module Chapter1.Exercise30 (sum) where
     sum :: (Num a, Ord a) => (a -> a) -> a -> (a -> a) -> a -> a
     sum term a next b = go a 0
       where
-        go x acc | x > b = acc
+        go x acc | x > b     = acc
                  | otherwise = go (next x) $ acc + term x
