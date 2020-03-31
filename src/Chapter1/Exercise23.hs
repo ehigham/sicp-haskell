@@ -30,7 +30,7 @@ module Chapter1.Exercise23 (isPrime) where
     searchForPrimes = makeSearchForPrimes isPrime
 
     isPrime :: (Integral n) => n -> Bool
-    isPrime n = n == smallestDivisor n
+    isPrime n = n > 1 && n == smallestDivisor n
 
 -- >>> searchForPrimes 100000
 -- 100003 *** 0.000349968s

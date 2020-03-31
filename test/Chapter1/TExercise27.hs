@@ -11,8 +11,8 @@ module Chapter1.TExercise27 (tests) where
 
     tIsNotCarmichael :: Test
     tIsNotCarmichael = TestCase (assertBool
-        ("(not . isCarmichael) [0, 1, 2, 3]")
-        (and $ fmap (not . isCarmichael) ([0, 1, 2, 3] :: [Int])))
+        ("(not . isCarmichael) [2, 3, 5, 7, 11]")
+        (and $ fmap (not . isCarmichael) ([2, 3, 5, 7, 11] :: [Int])))
 
     tests :: Test
     tests = TestList [tIsCarmichael, tIsNotCarmichael]

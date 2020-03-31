@@ -15,8 +15,8 @@ module Chapter1.Exercise32 (accumulate, sum, product) where
 
     accumulate combine state term a next b = go a state
       where
-        go x state | x > b     = state
-                   | otherwise = go (next x) $ combine state (term x)
+        go x acc | x > b     = acc
+                 | otherwise = go (next x) $ combine acc (term x)
 
     sum :: (Ord a, Num b) => (a -> b) -> a -> (a -> a) -> a -> b
     sum = accumulate (+) 0

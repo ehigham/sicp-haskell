@@ -49,7 +49,7 @@ module Chapter1.Exercise22 (makeSearchForPrimes) where
             | otherwise = from (n + 2)
 
     isPrime :: (Integral n) => n -> Bool
-    isPrime n = n == smallestDivisor n
+    isPrime n = n > 1 && n == smallestDivisor n
 
 -- | As of 2020, there's too much noise in the timings below ~100,000 so we'll
 -- | start our test from here.
