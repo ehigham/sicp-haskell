@@ -1,19 +1,14 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise6 (sqrt') where
     import Chapter1.Utilities (improve, square, halve)
-    
+
     -- append `_` to diambiguate with Prelude.sqrt
     sqrt' :: (Real x, Fractional x) => x -> x
-    sqrt' x = sqrtIter (halve x) x
-
-    sqrtIter :: (Real x, Fractional x) => x -> x -> x
-    sqrtIter guess x
-        | goodEnough guess x = guess
-        | otherwise = sqrtIter (improve guess x) x
-
-    goodEnough :: (Real x, Fractional x) => x -> x -> Bool
-    goodEnough guess x = abs (square guess - x) < threshold
-        where threshold = 0.001
-
+    sqrt' x = go (halve x)
+      where
+        go guess | goodEnough guess = guess
+                 | otherwise        = go (improve guess x)
+        goodEnough guess = abs (square guess - x) < 0.001
 
 -- | Alyssa P. Hacker doesn't see why `if` needs to be provided as a special
 -- | "Why can't I just define it as an ordinary procedure in terms of `cond`?"
@@ -34,7 +29,7 @@ module Chapter1.Exercise6 (sqrt') where
 -- | Delighted, Alyssa uses `newIf` to rewrite the square-root program:
 -- @
 --    sqrtIter :: (Real x, Fractional x) => x -> x -> x
---    sqrtIter guess x = 
+--    sqrtIter guess x =
 --        newIf (goodEnough guess x) guess (sqrtIter (improve guess x) x)
 -- @
 

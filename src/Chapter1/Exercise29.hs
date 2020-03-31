@@ -11,13 +11,14 @@ module Chapter1.Exercise29 (simpson, integral) where
 -- | value of the integral, computed using Simpson's rule. Use your procedure to
 -- | integrate `cube` between 0 and 1 (with n = 100 and n = 1000) and compare
 -- | the results to those of the aforementioned `integral` procedure.
-    import Chapter1.Utilities (halve, cube)
+    import Chapter1.Utilities (halve,)
 
     simpson :: (Fractional a) => (a -> a) -> a -> a -> Int -> a
     simpson f a b n = (/3.0) . (h*) . sum $ zipWith (*) coeffs ys
       where
+        coeffs :: (Fractional x) => [x]
+        coeffs = 1.0 : 1.0 : cycle [4.0, 2.0]
         h = (b - a) / fromIntegral n
-        coeffs = 1 : 1 : cycle [4, 2]
         ys = take (n + 1) $ fmap yk (0:n:[1..])
         yk k = f $ a + h * fromIntegral k
 

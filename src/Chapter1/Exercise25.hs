@@ -1,5 +1,7 @@
-module Chapter1.Exercise25 where
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
+module Chapter1.Exercise25 () where
     import Chapter1.Exercise16 (fastExpt')
+    import Prelude hiding (exp)
 -- | Alyssa P. Hacker complains that we went to a lot of extra work in writing
 -- | `expmod`. After all, she says, since we already know how to compute
 -- | exponentials, we could have simply written:

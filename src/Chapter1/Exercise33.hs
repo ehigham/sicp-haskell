@@ -1,7 +1,8 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise33 (filteredAccumulate) where
     import Chapter1.Exercise20 (gcd)
     import Chapter1.Exercise23 (isPrime)
-    import Chapter1.Utilities (square) 
+    import Chapter1.Utilities (square)
     import Prelude hiding (gcd)
 -- | You can obtain an even more general version of `accumulate` (exercise 1.32)
 -- | by introducing the notion og a `filter` on the terms to be combined. That
@@ -15,11 +16,11 @@ module Chapter1.Exercise33 (filteredAccumulate) where
     type Filter a = a -> Bool
 
     filteredAccumulate :: (Ord a) => Combiner b -> b -> Filter a -> (a -> b) -> a -> (a -> a) -> a -> b
-    filteredAccumulate combine state filter term a next b = go state a
+    filteredAccumulate combine state accept term a next b = go state a
       where
         go acc x | x > b     = acc
                  | otherwise = go (maybeCombine acc x) (next x)
-        maybeCombine acc x = if filter x then combine acc (term x) else acc
+        maybeCombine acc x = if accept x then combine acc (term x) else acc
 
 -- | Show how to express the following using `filteredAccumulate`:
 -- | a. the sum of the squares of the prime numbers in the interval a to b

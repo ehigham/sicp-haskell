@@ -1,6 +1,7 @@
-module Chapter1.Exercise34 where
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
+module Chapter1.Exercise34 () where
 -- | Suppose we define the procedure:
--- | f :: (Num a) => (a -> b) -> b
+    f :: (Num a) => (a -> b) -> b
     f = ($ 2)
 
 -- | Then we have

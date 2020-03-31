@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise22 (makeSearchForPrimes) where
     import Chapter1.Exercise21 (smallestDivisor)
     import Chapter1.Utilities (timeIt)
@@ -12,13 +13,11 @@ module Chapter1.Exercise22 (makeSearchForPrimes) where
 
 -- | Modified definition for re-use with Exercise23:
 
-    timedPrimeTest :: (Integral n, Show n) => (n -> Bool) -> n -> IO ()
-    timedPrimeTest isPrime n = do
+    timedPrimeTest :: (Show n) => (n -> Bool) -> n -> IO ()
+    timedPrimeTest prime n = do
         putStr (show n)
-        (prime, time) <- timeIt $ isPrime n
-        when prime $ reportPrime time
-      where
-        newLine = putStrLn ""
+        (p, time) <- timeIt $ prime n
+        when p $ reportPrime time
 
     reportPrime :: (Show n) => n -> IO ()
     reportPrime time = putStrLn (" *** " ++ show time)
@@ -35,21 +34,20 @@ module Chapter1.Exercise22 (makeSearchForPrimes) where
 -- | compatible with the notion that programs on your machine run in time
 -- | proportional to the number of steps required for the computation?
 
-    searchForPrimes :: (Integral n, Show n) => n -> IO ()
-    searchForPrimes = makeSearchForPrimes isPrime
-
     makeSearchForPrimes :: (Integral n, Show n) => (n -> Bool) -> n -> IO ()
-    makeSearchForPrimes isPrime n
-        = sequence_ $ take 3 $ fmap (timedPrimeTest isPrime) primes
+    makeSearchForPrimes prime n
+        = sequence_ $ take 3 $ fmap (timedPrimeTest prime) primes
       where
-        primes = [p | p <- [(from n)..], isPrime p]
-        from n
-            | isPrime n = n
-            | even n    = from (n + 1)
-            | otherwise = from (n + 2)
+        primes = [p | p <- [(from n)..], prime p]
+        from x | prime x = x
+               | even x    = from (x + 1)
+               | otherwise = from (x + 2)
 
     isPrime :: (Integral n) => n -> Bool
     isPrime n = n > 1 && n == smallestDivisor n
+
+    searchForPrimes :: (Integral n, Show n) => n -> IO ()
+    searchForPrimes = makeSearchForPrimes isPrime
 
 -- | As of 2020, there's too much noise in the timings below ~100,000 so we'll
 -- | start our test from here.

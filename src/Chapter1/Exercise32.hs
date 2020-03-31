@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise32 (accumulate, sum, product) where
     import Prelude hiding (sum, product)
 -- | a. Show that `sum` and `product` are both special cases of a still more

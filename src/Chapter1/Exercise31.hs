@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise31 (product, factorial) where
     import Prelude hiding (product)
 -- | a. The `sum` procedure is only the simplest of a vast number of similiar

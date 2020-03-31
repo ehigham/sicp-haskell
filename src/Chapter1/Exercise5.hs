@@ -1,4 +1,5 @@
-module Chapter1.Exercise5 where
+{-# OPTIONS_GHC -Wno-missing-signatures -Wno-unused-top-binds #-}
+module Chapter1.Exercise5 () where
 -- | Ben Bitdiddle has invented a test to determine whether the interpreter
 -- | he is faced with using applicative-order evaluation or normal-order
 -- | evaluation. He defines the following two procedures:

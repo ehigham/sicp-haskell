@@ -15,10 +15,9 @@ module Chapter1.Exercise15 (sine, p) where
     sine x = if sufficentlySmall x then x else p . sine . (/ 3) $ x
 
     sufficentlySmall :: (Real x, Fractional x) => x -> Bool
-    sufficentlySmall = (<= threshold) . abs
-        where threshold = 0.1
+    sufficentlySmall = (<= 0.1) . abs
 
-    p :: (Real x, Fractional x) => x -> x
+    p :: (Real x) => x -> x
     p x = 3 * x - 4 * cube x
 
 -- | How many times is the procedure p applied when `sine 12.15` is

@@ -20,6 +20,7 @@ module Chapter1.Exercise28 (isPrime) where
 -- | various primes and non-primes. Hint: One convenient way to make `expmod`
 -- | signal is to have it return 0.
     import Chapter1.Utilities (halveI, square)
+    import Prelude hiding (exp)
     import System.Random (Random, RandomGen, randomRs, newStdGen)
 
     fastPrime :: (RandomGen g,  Integral a, Random a) => g -> a -> Bool
@@ -27,17 +28,16 @@ module Chapter1.Exercise28 (isPrime) where
       where
           millerRabin a = 1 == expmod a (n - 1) n
           randoms = take times (randomRs (1, n - 1) gen)
-          times = fromIntegral $ halveI n
+          times = (fromIntegral $ halveI n) :: Int
 
     expmod :: (Integral n) => n -> n -> n -> n
-    expmod base exp m = let x = go base exp m in if isNonTrivial x then 0 else x
+    expmod base exp m = let x = go exp in if isNonTrivial x then 0 else x
       where
-        go base exp m
-            | exp == 0  = 1
-            | even exp  = square (expmod base (halveI exp) m) `mod` m
-            | otherwise = (base * expmod base (pred exp) m) `mod` m
+        go n | n == 0    = 1
+             | even n    = square (expmod base (halveI n) m) `mod` m
+             | otherwise = (base * expmod base (pred n) m) `mod` m
         isNonTrivial 1 = False
-        isNonTrivial x = odd m && x /= (m - 1) && (square x) `mod` m == 1
+        isNonTrivial x = odd m && x /= (m - 1) && square x `mod` m == 1
 
     isPrime :: (Integral n, Random n) => n -> IO Bool
     isPrime n = newStdGen >>= \g -> return (fastPrime g n)

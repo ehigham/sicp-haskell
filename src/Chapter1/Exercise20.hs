@@ -1,4 +1,4 @@
-module Chapter1.Exercise20 where
+module Chapter1.Exercise20 (gcd) where
     import Prelude hiding (gcd)
 -- | The process that a procedure generates is of course dependent on the rules
 -- | used by the interpreter. As an example, consider the iterative `gcd`
@@ -32,7 +32,7 @@ module Chapter1.Exercise20 where
 -- gcd 4 2    -- (6 `mod` 4) evaluated
 -- gcd 2 0    -- (4 `mod` 2) evaluated
 -- 2
--- | 4. 
+-- | 4.
 
 -- | Interesting note: Haskell uses lazy evaluation, which binds a value to a
 -- | name only when it is required. Thus, the process generated in Haskell is:

@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise23 (isPrime) where
     import Chapter1.Exercise22 (makeSearchForPrimes)
     import Chapter1.Utilities (square, divides)
@@ -26,11 +27,11 @@ module Chapter1.Exercise23 (isPrime) where
 -- | confirmed? If not, what is the observed ratio of the speeds of the two
 -- | algorithms, and how do you explain the fact that it is different from 2?
 
-    searchForPrimes :: (Integral n, Show n) => n -> IO ()
-    searchForPrimes = makeSearchForPrimes isPrime
-
     isPrime :: (Integral n) => n -> Bool
     isPrime n = n > 1 && n == smallestDivisor n
+
+    searchForPrimes :: (Integral n, Show n) => n -> IO ()
+    searchForPrimes = makeSearchForPrimes isPrime
 
 -- >>> searchForPrimes 100000
 -- 100003 *** 0.000349968s

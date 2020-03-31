@@ -26,6 +26,14 @@ dependencies:
 
 library:
   source-dirs: src
+  ghc-options:
+    - -O2
+    - -g
+    - -Weverything
+    - -Wno-implicit-prelude
+    - -Wno-safe
+    - -Wno-missing-local-signatures
+    - -Wno-missing-import-lists
 
 tests:
   sicp-haskell-test:
@@ -35,8 +43,8 @@ tests:
     ghc-options:
     - -O0
     - -g
+    - -W
     - -Wall
-    - -Wextra
     - -Werror
     - -threaded
     - -rtsopts

@@ -1,6 +1,8 @@
+{-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise24 (fastPrime, expmod) where
     import Chapter1.Exercise22 (makeSearchForPrimes)
     import Chapter1.Utilities (square, halveI)
+    import Prelude hiding (exp)
     import System.Random (RandomGen, Random, randomRs, newStdGen)
 -- | Modify the `timedPrimeTest` from exercise 1.22 to use `fastPrime` (the
 -- | Fermat method), to test each of the 12 primes you found in that exercise.

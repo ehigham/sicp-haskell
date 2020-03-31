@@ -1,4 +1,4 @@
-module Chapter1.Exercise21 where
+module Chapter1.Exercise21 (smallestDivisor) where
     import Chapter1.Utilities (square, divides)
 -- | Use the `smallestDivisor` procedure to find the smallest divisor of each of
 -- | the following numbers: 199, 1999, 19999.
@@ -6,10 +6,9 @@ module Chapter1.Exercise21 where
     smallestDivisor :: (Integral n) => n -> n
     smallestDivisor = go 2
       where
-        go test n
-            | square test > n   = n
-            | test `divides` n  = test
-            | otherwise         = go (succ test) n
+        go test n | square test > n   = n
+                  | test `divides` n  = test
+                  | otherwise         = go (succ test) n
 
 -- >>> smallestDivisor 199
 -- 199
