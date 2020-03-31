@@ -1,6 +1,7 @@
-module Chapter1.Exercise33 (filteredAccumulate, sumPrimes) where
+module Chapter1.Exercise33 (filteredAccumulate) where
     import Chapter1.Exercise20 (gcd)
     import Chapter1.Exercise23 (isPrime)
+    import Chapter1.Utilities (square) 
     import Prelude hiding (gcd)
 -- | You can obtain an even more general version of `accumulate` (exercise 1.32)
 -- | by introducing the notion og a `filter` on the terms to be combined. That
@@ -24,13 +25,13 @@ module Chapter1.Exercise33 (filteredAccumulate, sumPrimes) where
 -- | a. the sum of the squares of the prime numbers in the interval a to b
 -- | (Assume you have a `isPrime` predicate already written)
 
-    sumPrimes :: (Integral a) => a -> a -> a
-    sumPrimes a = filteredAccumulate (+) 0 isPrime id a (+1)
+    sumSquarePrimes :: (Integral a) => a -> a -> a
+    sumSquarePrimes a = filteredAccumulate (+) 0 isPrime square a (+1)
 
--- >>> sumPrimes 1 5
--- 10
+-- >>> sumSquarePrimes 1 5
+-- 38
 --
--- >> sumPrimes 1 1
+-- >>> sumSquarePrimes 1 1
 -- 0
 
 -- | b. the product of all the positive integers less than n that are relatively
