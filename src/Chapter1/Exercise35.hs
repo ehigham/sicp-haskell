@@ -1,4 +1,5 @@
-module Chapter1.Exercise35 (fixed, phi) where
+module Chapter1.Exercise35 (fixed, fixedM, phi) where
+    import Control.Monad.Identity (runIdentity)
 -- | Show that the golden ratio `phi` (section 1.2.2) is a fixed point of the
 -- | transfromation \x -> 1 + 1/x, and use this fact to compute phi by means of
 -- | the `fixedPoint` procedure
@@ -10,12 +11,17 @@ module Chapter1.Exercise35 (fixed, phi) where
 --     x = (1 + sqrt 5)/2
 -- @
 
-    fixed :: (Real a, Fractional a) => (a -> a) -> a -> a
-    fixed f y = go y (f y)
+    fixedM :: (Monad m, Real a, Fractional a) => (a -> m a) -> a -> m a
+    fixedM f a = do
+        b <- f a
+        if closeEnough b
+            then return b
+            else fixedM f b
       where
-          go a b | closeEnough a b = b
-                 | otherwise       = go b (f b)
-          closeEnough a b = abs (a - b) < 0.00001
+        closeEnough b = abs (a - b) < 0.00001
+
+    fixed :: (Real a, Fractional a) => (a -> a) -> a -> a
+    fixed f a = runIdentity $ fixedM (return . f) a
 
     phi :: Double
     phi = fixed (\x -> 1 + 1/x) 1.6
