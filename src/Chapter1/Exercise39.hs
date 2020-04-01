@@ -11,9 +11,9 @@ module Chapter1.Exercise39 (tanCF) where
 -- | specifies the number of terms to compute, as in exercise 1.37.
 
     tanCF :: Double -> Int -> Double
-    tanCF x = negate . contFrac (negate . xs) ds
+    tanCF x = contFrac xs ds
       where
-        xs k = if k == 1 then x else square x
+        xs k = if k == 1 then x else negate $ square x
         ds k = fromIntegral $ 2 * k - 1
 
 -- >>> tanCF (pi/4) 10
