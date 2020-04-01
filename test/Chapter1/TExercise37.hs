@@ -6,7 +6,7 @@ module Chapter1.TExercise37 (tests) where
     tPhi :: Test
     tPhi = TestCase (assertEquals
             "phi = 1.61803398875"
-            1.0001
+            0.0001
             1.61803398875
             (calculatePhi 10))
 

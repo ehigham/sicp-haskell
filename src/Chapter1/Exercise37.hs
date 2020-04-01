@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
-module Chapter1.Exercise37 (calculatePhi) where
+module Chapter1.Exercise37 (calculatePhi, contFrac) where
 -- | a. An infinite "continued fraction" is an expression of the form
 -- @
 --     f = N1 / (D1 + N2 / (D2 + N3 / (D3 + ...))))
