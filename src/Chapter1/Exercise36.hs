@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
-module Chapter1.Exercise36 () where
-    import Chapter1.Exercise35 (fixedM)
+module Chapter1.Exercise36 (averageDamp) where
+    import Chapter1.Exercise35 (fixedPointM)
     import Chapter1.Utilities (average)
     import Control.Monad (ap, liftM2)
 -- | Modify `fixed` so that it prints the sequence of approximations it
@@ -17,9 +17,12 @@ module Chapter1.Exercise36 () where
     f :: Double -> Double
     f = (log 1000 /) . log
 
+    averageDamp :: (Fractional a) => (a -> a) -> (a -> a)
+    averageDamp = ap average
+
     solution, avgDamped :: Double -> IO Double
-    solution = fixedM (printAndReturn . f)
-    avgDamped = fixedM (printAndReturn . ap average f)
+    solution = fixedPointM (printAndReturn . f)
+    avgDamped = fixedPointM (printAndReturn . averageDamp f)
 
 -- >>> solution 5
 -- 4.29202967422018

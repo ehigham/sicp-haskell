@@ -1,5 +1,5 @@
 module Chapter1.Exercise40 (newtonsMethod, cubic) where
-    import Chapter1.Exercise35 (fixed)
+    import Chapter1.Exercise35 (fixedPoint)
     import Chapter1.Utilities (square, cube)
 -- | Define a procedure `cubic` that can be used together with the
 -- | `newtonsMethod` procedure in expressions of the form:
@@ -15,7 +15,7 @@ module Chapter1.Exercise40 (newtonsMethod, cubic) where
         dx = 0.00001
 
     newtonsMethod :: (Real a, Fractional a) => (a -> a) -> a -> a
-    newtonsMethod = fixed . newtonTransform
+    newtonsMethod = fixedPoint . newtonTransform
       where
         newtonTransform f x = x - f x / derivative f x
 
