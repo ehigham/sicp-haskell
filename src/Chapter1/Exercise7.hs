@@ -27,7 +27,7 @@ module Chapter1.Exercise7 (sqrt', goodEnough) where
     sqrt' x = go x (halve x)
       where
           go old new | goodEnough old new = new
-                     | otherwise = go new (improve new x)
+                     | otherwise          = go new (improve new x)
 
     goodEnough :: (Real x, Fractional x) => x -> x -> Bool
     goodEnough old new = abs (1.0 - old / new) < 0.001
