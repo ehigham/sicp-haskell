@@ -29,7 +29,7 @@ module Chapter2.Exercise1 (RatNum, mkRat) where
 
         negate = liftM2 mkRat (negate . numer) denom
 
-        signum = fromInteger. signum . numer
+        signum = fromInteger . signum . numer
 
         fromInteger x = RatNum x 1
 
