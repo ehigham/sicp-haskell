@@ -1,9 +1,10 @@
 module Chapter2.Exercise2 (
     Point (..),
     Segment (..),
-    midpoint
+    midpoint,
+    norm
 ) where
-    import Chapter1.Utilities (average)
+    import Chapter1.Utilities (average, square)
     import Data.Function (on)
 -- | Consider the propblem of representing line segments in a plane. Each
 -- | segment is represented as a pair of points: a starting point and an ending
@@ -23,11 +24,19 @@ module Chapter2.Exercise2 (
     instance Show Point where
         show (Point x y) = "(" ++ show x ++ ", " ++ show y ++ ")"
 
+    dotWith :: (Double -> Double -> Double) -> Point -> Point -> Point
+    dotWith f p q = Point x y
+      where
+        x = (f `on` getX) p q
+        y = (f `on` getY) p q
+
     data Segment = Segment { getStart :: Point, getEnd :: Point }
         deriving (Eq, Show)
 
     midpoint :: Segment -> Point
-    midpoint (Segment start end) = Point x y
+    midpoint (Segment start end) = dotWith average start end
+
+    norm :: Segment -> Double
+    norm (Segment p q) = sqrt . sumsquares $ dotWith (-) q p
       where
-        x = (average `on` getX) start end
-        y = (average `on` getY) start end
+        sumsquares (Point x y) = square x + square y

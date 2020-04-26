@@ -29,12 +29,12 @@ library:
   source-dirs: src
   ghc-options:
     - -O2
-    - -g
     - -Weverything
     - -Wno-implicit-prelude
     - -Wno-safe
     - -Wno-missing-local-signatures
     - -Wno-missing-import-lists
+    - -Werror
 
 tests:
   sicp-haskell-test:
@@ -42,7 +42,7 @@ tests:
     source-dirs:
     - test
     ghc-options:
-    - -O0
+    - -O2
     - -g
     - -W
     - -Wall
