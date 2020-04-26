@@ -1,4 +1,4 @@
-module Chapter2.Exercise1 (RatNum, mkRat) where
+module Chapter2.Exercise1 (RatNum (numer, denom), mkRat) where
     import Chapter1.Exercise20 (gcd)
     import Control.Monad (liftM2)
     import Prelude hiding (gcd)
