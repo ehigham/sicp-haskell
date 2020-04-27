@@ -5,6 +5,7 @@ module Chapter2.Spec (chapter2_tests) where
     import Chapter2.TExercise3
     import Chapter2.TExercise4
     import Chapter2.TExercise5
+    import Chapter2.TExercise6
 
     chapter2_tests :: Test
     chapter2_tests = TestList[
@@ -12,4 +13,5 @@ module Chapter2.Spec (chapter2_tests) where
         Chapter2.TExercise2.tests,
         Chapter2.TExercise3.tests,
         Chapter2.TExercise4.tests,
-        Chapter2.TExercise5.tests]
+        Chapter2.TExercise5.tests,
+        Chapter2.TExercise6.tests]
