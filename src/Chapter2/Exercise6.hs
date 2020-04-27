@@ -42,6 +42,7 @@ module Chapter2.Exercise6 (ChurchNumeral, church, fromChurch) where
     instance Num ChurchNumeral where
         a + b = ChurchNumeral $ liftM2 (.) (apply a) (apply b)
         a * b = ChurchNumeral $ (apply a) . (apply b)
+        a - b = (apply b pred) a
         abs = id
         signum = const one
         fromInteger = church
