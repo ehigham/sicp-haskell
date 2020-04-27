@@ -8,8 +8,7 @@ module Chapter1.Utilities (
     cube,
     divides,
     timeIt
-    ) where
-
+) where
     import Control.Exception (evaluate)
     import Data.Time.Clock
 
@@ -34,6 +33,7 @@ module Chapter1.Utilities (
     cube :: (Num x) => x -> x
     cube x = x * x * x
 
+    {-# INLINABLE divides #-}
     divides :: (Integral n) => n -> n -> Bool
     divides x y = y `mod` x == 0
 
