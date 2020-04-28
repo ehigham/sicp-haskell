@@ -82,6 +82,7 @@ module Chapter2.Exercise7 (
 -- | the upper bound and the reciprocal of the lower bound, in that order.
 
     instance Fractional Interval where
+        a / b = a * recip b
 
 -- | Exercise 2.10
 -- | Ben Bitdiddle, an expert systems programmer, looks over Alyssa's shoulder
