@@ -1,5 +1,5 @@
 module Chapter2.TExercise7 (tests) where
-    import Chapter2.Exercise7 (mkInterval, lower, upper, width)
+    import Chapter2.Exercise7 (mkInterval, mkCentreWidth, mkCentrePercent, lower, upper, width)
     import Test.HUnit
 
     multiplyTests :: Test
@@ -24,4 +24,6 @@ module Chapter2.TExercise7 (tests) where
         TestLabel "multiply" multiplyTests,
         TestLabel "recip" (mkInterval (1/4) (1/2) ~=? recip (mkInterval 2 4)),
         TestLabel "divide" (mkInterval (1/4) 1 ~=? (mkInterval 2 4) / (mkInterval 4 8)),
-        TestLabel "width" (3 ~=? width (mkInterval (negate 1) 5))]
+        TestLabel "width" (3 ~=? width (mkInterval (negate 1) 5)),
+        TestLabel "mkCentreWidth" (mkInterval 3.35 3.65 ~=? (mkCentreWidth 3.5 0.15)),
+        TestLabel "mkCentrePercent" (mkInterval 2.983 3.297 ~=? (mkCentrePercent 3.14 5))]

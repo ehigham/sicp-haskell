@@ -1,10 +1,13 @@
 module Chapter2.Exercise7 (
     Interval,
     mkInterval,
+    mkCentreWidth,
+    mkCentrePercent,
     lower,
     centre,
     upper,
-    width
+    width,
+    percent
 ) where
     import Chapter1.Utilities (average, halve)
     import Chapter2.Exercise4 (cons, car, cdr, Pair)
@@ -144,47 +147,36 @@ module Chapter2.Exercise7 (
     upper :: Interval -> Double
     upper (Interval a) = cdr a
 
--- | Exercise 2.9
--- | The `width` of an interval is half the difference between its upper and
--- | lower bounds. The width is a measure of the uncertainty of the number
--- | specified by the interval.
+-- | After debugging her program, Alyssa shows it to a potential user, who
+-- | complains that her program solves the wrong problem. He wants a program
+-- | that can deal with centre value and additive tolerance; for example, he
+-- | wants to work with intervals such as 3.5 +/- 0.15 rather than [3.35, 3.65].
+-- | Alyssa returns to her desk and fixes her problem by supplying an alternate
+-- | constructor and alternate selectors:
+
+    mkCentreWidth :: Double -> Double -> Interval
+    mkCentreWidth c w = mkInterval (c - w) (c + w)
+
     width :: Interval -> Double
     width = abs . halve . liftM2 (-) upper lower
-
--- | For some arithmetic operations, the width of the result of combining two
--- | intervals is a function only of the argument intervals, whereas for others
--- | the width of the computation is not a function of the widths of the
--- | argument intervals. Show that the width of the sum (or difference) of two
--- | intervals is a function only of the widths of the intervals being added
--- | (or subtracted).
---
--- | For (+)
--- @
---      width $ a + b
---      width $ mkInterval (lower a + lower b) (upper a + upper b)
---      abs . halve $ (upper a + upper b) - (lower a + lower b)
---      abs . halve $ (upper a - lower a) + (upper b + lower b)
---      abs . halve $ 2 * width a + 2 * width b
---      -- only a function of width!
--- @
---
--- | Give examples to show that this is not true of multiplication and division.
--- | If multiplication and division were only functions of interval width, then
--- | one would expect multiplying different intervals of the saem width would
--- | yield the same result. For example, consider multiplying width 5 intervals
--- | with width 1:
--- |  [0, 10] * [0, 2]  = [0, 20]   (width = 10)
--- |  [-5, 5] * [-1, 1] = [-5, 5]   (width = 5)
 
     centre :: Interval -> Double
     centre = liftM2 average lower upper
 
+-- | Unfortunately, most of Alyssa's users are engineers. Real engineering
+-- | situations usually involve measurements with only a small uncertainty,
+-- | measured as the ratio of the width of the interval to the midpoint of the
+-- | interval. Engineers usually specify percentage tolerances on the parameters
+-- | of devices, as in the resistor specifications given earlier.
 
-    -- mult :: Interval -> Interval -> Interval
-    -- mult a b = mkInterval (minimum ps) (maximum ps)
-    --   where
-    --     ps = [p1, p2, p3, p4]
-    --     p1 = lower a * lower b
-    --     p2 = lower a * upper b
-    --     p3 = upper a * lower b
-    --     p4 = upper a * upper b
+-- | Exercise 2.12
+-- | Define a constructor `mkCentrePercent` that takes a centre and a percentage
+-- | tolerance and produces the desired interval. You must also define a
+-- | selector `percent` that produces the percentage tolerance for a given
+-- | interval. The `centre` selector is the same as the one shown above.
+
+    mkCentrePercent :: Double -> Double -> Interval
+    mkCentrePercent = liftM2 (.) mkCentreWidth ((*) . (0.01 *))
+
+    percent :: Interval -> Double
+    percent = (* 100) . liftM2 (/) width centre
