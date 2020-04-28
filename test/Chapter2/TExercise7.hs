@@ -1,7 +1,18 @@
 module Chapter2.TExercise7 (tests) where
-    import Chapter1.Utilities (square)
     import Chapter2.Exercise7 (mkInterval, lower, upper, width)
     import Test.HUnit
+
+    multiplyTests :: Test
+    multiplyTests = TestList [
+        TestLabel "(+, +)" (mkInterval (       10) (       21) ~=? mkInterval (       2) (       3) * mkInterval (       5) (       7)),
+        TestLabel "(+, =)" (mkInterval (negate 15) (       21) ~=? mkInterval (       2) (       3) * mkInterval (negate 5) (       7)),
+        TestLabel "(+, -)" (mkInterval (negate 21) (negate 10) ~=? mkInterval (       2) (       3) * mkInterval (negate 7) (negate 5)),
+        TestLabel "(=, +)" (mkInterval (negate 14) (       21) ~=? mkInterval (negate 2) (       3) * mkInterval (       5) (       7)),
+        TestLabel "(=, =)" (mkInterval (negate 15) (       21) ~=? mkInterval (negate 2) (       3) * mkInterval (negate 5) (       7)),
+        TestLabel "(=, -)" (mkInterval (negate 21) (       14) ~=? mkInterval (negate 2) (       3) * mkInterval (negate 7) (negate 5)),
+        TestLabel "(-, +)" (mkInterval (negate 21) (negate 10) ~=? mkInterval (negate 3) (negate 2) * mkInterval (       5) (       7)),
+        TestLabel "(-, =)" (mkInterval (negate 21) (       15) ~=? mkInterval (negate 3) (negate 2) * mkInterval (negate 5) (       7)),
+        TestLabel "(-, -)" (mkInterval (       10) (       21) ~=? mkInterval (negate 3) (negate 2) * mkInterval (negate 7) (negate 5))]
 
     tests :: Test
     tests = TestList [
@@ -9,8 +20,8 @@ module Chapter2.TExercise7 (tests) where
         TestLabel "upper" (1 ~=? upper (mkInterval 0 1)),
         TestLabel "add" (mkInterval 0 0 ~=? (mkInterval (negate 1) 1) + (mkInterval 1 (negate 1))),
         TestLabel "negate" (mkInterval (negate 1) (negate 1) ~=? negate (mkInterval 1 1)),
-        TestLabel "subtract" (mkInterval (negate 2) 2 ~=? (mkInterval (negate 1) 1) - (mkInterval 1 (negate 1))),
-        TestLabel "multiply" (mkInterval 4 9 ~=? square (mkInterval 2 3)),
+        TestLabel "subtract" (mkInterval 0 0 ~=? (mkInterval (negate 1) 1) - (mkInterval 1 (negate 1))),
+        TestLabel "multiply" multiplyTests,
         TestLabel "recip" (mkInterval (1/4) (1/2) ~=? recip (mkInterval 2 4)),
---        TestLabel "divide" (mkInterval 2 3 ~=? (mkInterval 4 9) / (mkInterval 2 3)),
+        TestLabel "divide" (mkInterval (1/4) 1 ~=? (mkInterval 2 4) / (mkInterval 4 8)),
         TestLabel "width" (3 ~=? width (mkInterval (negate 1) 5))]

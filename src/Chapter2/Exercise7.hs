@@ -52,19 +52,13 @@ module Chapter2.Exercise7 (
 -- | minimum and maximum of the products of the bounds and using them as the
 -- | bounds of the resulting interval. (`minimum` and `maximum` are primitives
 -- | that find the minimum and maximum of any number of arguments).
-
-        a * b = mkInterval (minimum ps) (maximum ps)
-          where
-            ps = [p1, p2, p3, p4]
-            p1 = lower a * lower b
-            p2 = lower a * upper b
-            p3 = upper a * lower b
-            p4 = upper a * upper b
+-- | EDIT: Exercise 2.11
+        (*) = multInterval
 
 -- | Exercise 2.8
 -- | Using reasoning analogous to Alyssa's, describe hwo the difference of two
 -- | intervals may be computed. Define a corresponding subtraction procedure (-)
-        a - b = mkInterval (lower a - lower b) (upper a - upper b)
+        a - b = mkInterval (lower a - upper b) (upper a - lower b)
 
         abs a = mkInterval x y
           where
@@ -76,6 +70,34 @@ module Chapter2.Exercise7 (
         negate = liftM2 mkInterval (negate . upper) (negate . lower)
 
         fromInteger = (join mkInterval) . fromInteger
+
+-- | Exercise 2.11
+-- | In passing, Ben also cryptically commetns: "By testing the signs of the end
+-- | points of the intervals, it is possible to break up `multInterval` into 9
+-- | cases, only one requires more than two operations." Rewrite this procedure
+-- | using Ben's suggestion.
+
+    multInterval :: Interval -> Interval -> Interval
+    multInterval a b = case (sign a, sign b) of
+        (Positive, Positive) -> mkInterval (lower a * lower b) (upper a * upper b)
+        (Positive, Spanning) -> mkInterval (upper a * lower b) (upper a * upper b)
+        (Positive, Negative) -> mkInterval (upper a * lower b) (lower a * upper b)
+        (Spanning, Positive) -> mkInterval (lower a * upper b) (upper a * upper b)
+        (Spanning, Spanning) -> mkInterval (min (lower a * upper b) (upper a * lower b))
+                                           (max (upper a * upper b) (lower a * lower b))
+        (Spanning, Negative) -> mkInterval (upper a * lower b) (lower a * lower b)
+        (Negative, Positive) -> mkInterval (lower a * upper b) (upper a * lower b)
+        (Negative, Spanning) -> mkInterval (lower a * upper b) (lower a * lower b)
+        (Negative, Negative) -> mkInterval (upper a * upper b) (lower a * lower b)
+
+    data Sign = Positive | Negative | Spanning
+
+    sign :: Interval -> Sign
+    sign a = case (lower a `compare` 0, upper a `compare` 0) of
+        (GT, GT) -> Positive
+        (LT, LT) -> Negative
+        _        -> Spanning
+
 
 -- | Two divide two intervals, Alyssa multiplies the first by the reciprocal of
 -- | the second. Note that the bounds of the reciprocal are the reciprocal of
@@ -157,3 +179,12 @@ module Chapter2.Exercise7 (
     centre :: Interval -> Double
     centre = liftM2 average lower upper
 
+
+    -- mult :: Interval -> Interval -> Interval
+    -- mult a b = mkInterval (minimum ps) (maximum ps)
+    --   where
+    --     ps = [p1, p2, p3, p4]
+    --     p1 = lower a * lower b
+    --     p2 = lower a * upper b
+    --     p3 = upper a * lower b
+    --     p4 = upper a * upper b
