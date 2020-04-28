@@ -19,6 +19,7 @@ module Chapter2.TExercise7 (tests) where
         TestLabel "lower" (0 ~=? lower (mkInterval 0 1)),
         TestLabel "upper" (1 ~=? upper (mkInterval 0 1)),
         TestLabel "add" (mkInterval 0 0 ~=? (mkInterval (negate 1) 1) + (mkInterval 1 (negate 1))),
+        TestLabel "abs" (mkInterval 2 3 ~=? abs (mkInterval (negate 3) (negate 2))),
         TestLabel "negate" (mkInterval (negate 1) (negate 1) ~=? negate (mkInterval 1 1)),
         TestLabel "subtract" (mkInterval 0 0 ~=? (mkInterval (negate 1) 1) - (mkInterval 1 (negate 1))),
         TestLabel "multiply" multiplyTests,
