@@ -1,5 +1,5 @@
 {-# LANGUAGE Rank2Types #-}
-module Chapter2.Exercise4 (cons, car, cdr) where
+module Chapter2.Exercise4 (cons, car, cdr, Pair) where
 -- | Here is an alternative procedural representation of pairs. For this
 -- | representation, verify that (car (cons x y)) yeilds x for any objects x
 -- | and y.
