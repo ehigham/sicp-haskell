@@ -1,5 +1,5 @@
 module Chapter2.Exercise14 (par1, par2) where
-    import Chapter2.Exercise7 (Interval, mkInterval)
+    import Chapter2.Exercise7 (Interval)
 -- | After considerable work, Alyssa P. Hacker delivers her finished system.
 -- | Several years later, after she has forgotten all about it, she gets a
 -- | frenzied call from an irate user, Lem E. Tweakit. It seems that Lem has
@@ -19,9 +19,7 @@ module Chapter2.Exercise14 (par1, par2) where
     par1 r1 r2 = (r1 * r2) / (r1 + r2)
 
     par2 :: Interval -> Interval -> Interval
-    par2 r1 r2 = one / (one / r1 + one / r2)
-      where
-        one = mkInterval 1 1
+    par2 r1 r2 = recip (recip r1 + recip r2)
 
 -- | Lem Complains that Alyssa's program gives different answers fot the two
 -- | ways of computing. This is a serious complaint.
