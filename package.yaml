@@ -27,6 +27,7 @@ dependencies:
 
 default-extensions:
 - DerivingStrategies
+- RankNTypes
 
 library:
   source-dirs: src
