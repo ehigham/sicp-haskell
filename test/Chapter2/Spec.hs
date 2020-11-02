@@ -9,6 +9,7 @@ module Chapter2.Spec (chapter2_tests) where
     import Chapter2.TExercise14
     import Chapter2.TExercise17
     import Chapter2.TExercise18
+    import Chapter2.TExercise20
     import Test.HUnit
 
     chapter2_tests :: Test
@@ -22,5 +23,6 @@ module Chapter2.Spec (chapter2_tests) where
         TestLabel "Exercise7" Chapter2.TExercise7.tests,
         TestLabel "Exercise14" Chapter2.TExercise14.tests,
         TestLabel "Exercise17" Chapter2.TExercise17.tests,
-        TestLabel "Exercise18" Chapter2.TExercise18.tests
+        TestLabel "Exercise18" Chapter2.TExercise18.tests,
+        TestLabel "Exercise18" Chapter2.TExercise20.tests
         ]
