@@ -29,7 +29,7 @@ module Chapter2.Exercise3 (
         base :: Segment,
         side :: Segment
     }
-      deriving (Eq, Show)
+      deriving stock (Eq, Show)
 
     instance Rectangular Rectangle where
         height = norm . side
@@ -39,7 +39,7 @@ module Chapter2.Exercise3 (
         bottomLeft :: Point,
         topRight   :: Point
     }
-      deriving (Eq, Show)
+      deriving stock (Eq, Show)
 
     instance Rectangular AltRectangle where
         height r = getY (topRight r) - getY (bottomLeft r)

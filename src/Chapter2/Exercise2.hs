@@ -19,7 +19,7 @@ module Chapter2.Exercise2 (
 -- | your procedures, you'll need a way to print points
 
     data Point = Point { getX :: Double, getY :: Double }
-        deriving Eq
+        deriving stock Eq
 
     instance Show Point where
         show (Point x y) = "(" ++ show x ++ ", " ++ show y ++ ")"
@@ -31,7 +31,7 @@ module Chapter2.Exercise2 (
         y = (f `on` getY) p q
 
     data Segment = Segment { getStart :: Point, getEnd :: Point }
-        deriving (Eq, Show)
+        deriving stock (Eq, Show)
 
     midpoint :: Segment -> Point
     midpoint (Segment start end) = dotWith average start end

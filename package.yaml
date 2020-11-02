@@ -25,6 +25,9 @@ dependencies:
 - time >= 1.8
 - random >= 1.1
 
+default-extensions:
+- DerivingStrategies
+
 library:
   source-dirs: src
   ghc-options:
