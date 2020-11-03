@@ -5,11 +5,11 @@ module Chapter2.Exercise23 (forEach) where
 -- | elements in turn, from left to right. The values returned by applying the
 -- | procedure to the elements are not used at all - `forEach` is used with
 -- | procedures that perform an action, such as printing. For example:
--- >>> forEach' (putStrLn . show) ([57, 321, 88] :: [Integer])
+-- >>> forEach (putStrLn . show) ([57, 321, 88] :: [Integer])
 -- 1
 -- 2
 -- 3
--- Variable not in scope: forEach :: (a0 -> IO ()) -> [Integer] -> t
+-- Give an implementation for `forEach`.
 
     forEach :: (a -> IO b) -> [a] -> IO ()
     forEach _ [] = return ()
