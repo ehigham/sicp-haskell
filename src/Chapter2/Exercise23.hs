@@ -11,6 +11,6 @@ module Chapter2.Exercise23 (forEach) where
 -- 3
 -- Give an implementation for `forEach`.
 
-    forEach :: (a -> IO b) -> [a] -> IO ()
+    forEach :: (Monad m) => (a -> m b) -> [a] -> m ()
     forEach _ [] = return ()
     forEach f (x:xs) = (f x) >> forEach f xs
