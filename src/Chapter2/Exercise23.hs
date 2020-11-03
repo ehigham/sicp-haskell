@@ -6,9 +6,9 @@ module Chapter2.Exercise23 (forEach) where
 -- | procedure to the elements are not used at all - `forEach` is used with
 -- | procedures that perform an action, such as printing. For example:
 -- >>> forEach (putStrLn . show) ([57, 321, 88] :: [Integer])
--- 1
--- 2
--- 3
+-- 57
+-- 321
+-- 88
 -- Give an implementation for `forEach`.
 
     forEach :: (Monad m) => (a -> m b) -> [a] -> m ()
