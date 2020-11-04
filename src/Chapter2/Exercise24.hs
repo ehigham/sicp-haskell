@@ -57,7 +57,7 @@ module Chapter2.Exercise24 (
         traverse f (Node xs) = Node <$> traverse (traverse f) xs
 
     instance Semigroup (Tree a) where
-        x <> y = Node $ filter null [x, y]
+        x <> y = Node $ filter (not . null) [x, y]
 
     instance Monoid (Tree a) where
         mempty = Node []
