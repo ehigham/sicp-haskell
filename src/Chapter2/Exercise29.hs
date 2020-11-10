@@ -28,10 +28,9 @@ module Chapter2.Exercise29 (
 -- | b. Using your selectors, define a procedure `totalWeight` that returns the
 -- | total weight of your mobile.
     totalWeight :: Mobile -> Integer
-    totalWeight =
-        liftA2 (+) (weigh . structure . left) (weigh . structure . right)
+    totalWeight =  liftA2 (+) (weigh . left) (weigh . right)
       where
-        weigh = either id totalWeight
+        weigh = either id totalWeight . structure
 
 -- | c. A mobile is said to be "balanced" if the torque applied by its top-left
 -- | branch is equal to that applied by its top-right branch (that is, if the
@@ -42,8 +41,8 @@ module Chapter2.Exercise29 (
 
     balanced :: Mobile -> Bool
     balanced m = (torque . left) m == (torque . right) m
-        && (isBalanced . structure . left) m
-        && (isBalanced . structure . right) m
+        && (isBalanced . left) m
+        && (isBalanced . right) m
       where
         torque (Branch l s) = l * either id totalWeight s
-        isBalanced = either (const True) balanced
+        isBalanced = either (const True) balanced . structure
