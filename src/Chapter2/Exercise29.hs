@@ -1,7 +1,8 @@
 module Chapter2.Exercise29 (
     Mobile (Mobile, left, right),
     Branch (Branch, length, structure),
-    totalWeight
+    totalWeight,
+    balanced
 ) where
     import Control.Applicative (liftA2)
 -- | A binary `Mobile` consists of two branches, a left branch and a right
@@ -30,5 +31,19 @@ module Chapter2.Exercise29 (
     totalWeight =
         liftA2 (+) (weigh . structure . left) (weigh . structure . right)
       where
-        weigh (Left weight) = weight
-        weigh (Right mobile) = totalWeight mobile
+        weigh = either id totalWeight
+
+-- | c. A mobile is said to be "balanced" if the torque applied by its top-left
+-- | branch is equal to that applied by its top-right branch (that is, if the
+-- | length of the left rod multiplied by the weight handing from that rod is
+-- | equal to the corresponding product for the right side) and if each of the
+-- | submobiles hanging off its branches is balanced. Design a predicate that
+-- | tests whether a binary mobile is balanced.
+
+    balanced :: Mobile -> Bool
+    balanced m = (torque . left) m == (torque . right) m
+        && (isBalanced . structure . left) m
+        && (isBalanced . structure . right) m
+      where
+        torque (Branch l s) = l * either id totalWeight s
+        isBalanced = either (const True) balanced
