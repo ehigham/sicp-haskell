@@ -1,5 +1,4 @@
-{-# OPTIONS_GHC -Wno-unused-top-binds #-}
-module Chapter2.Exercise31 () where
+module Chapter2.Exercise31 (treeMap) where
     import Chapter2.Exercise24 (Tree)
 -- | Abstract your answer to exercise 2.30 to produce a procedure `treeMap`
 -- | with the property that `squareTree` could be defined as

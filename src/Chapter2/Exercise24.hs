@@ -3,6 +3,7 @@ module Chapter2.Exercise24 (
     countLeaves,
     BoxAndPointer
 ) where
+    import Control.Applicative ( Alternative(empty, (<|>)) )
 
 -- | Simple representation of a tree-like data structure
     data Tree a = Leaf a | Node [Tree a]
@@ -44,6 +45,10 @@ module Chapter2.Exercise24 (
         (Leaf f) <*> t = fmap f t
         (Node fs) <*> t = Node $ fmap (<*> t) fs
 
+    instance Alternative Tree where
+        empty = mempty
+        (<|>) = mappend
+
     instance Monad Tree where
         (Leaf x) >>= f = f x
         (Node xs) >>= f = Node $ fmap (>>= f) xs
@@ -57,7 +62,9 @@ module Chapter2.Exercise24 (
         traverse f (Node xs) = Node <$> traverse (traverse f) xs
 
     instance Semigroup (Tree a) where
-        x <> y = Node $ filter (not . null) [x, y]
+        x <> y  | null x    = y
+                | null y    = x
+                | otherwise = Node [x, y]
 
     instance Monoid (Tree a) where
         mempty = Node []
