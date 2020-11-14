@@ -1,37 +1,37 @@
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise23 (isPrime) where
-    import Chapter1.Exercise22 (makeSearchForPrimes)
-    import Chapter1.Utilities (square, divides)
--- | The `smallestDivisor` procedure shown at the start of this section does
--- | lots of needless testing: Afer it checks to see if the number is divisible
--- | by 2 there is no point in checking to see if it is divisible by any larger
--- | even numbers. This suggests that the values used for test-divisor should
--- | not be [2, 3, 4, 5, 6, ...], but rather [2, 3, 5, 7, 9, ...].
--- | To implement this change, define a procedure `next` that returns 3 if its
--- | input is equal to 2 and otherwise returns its input plus 2. Modify the
--- | smallestDivisor procedure to use `next guess` instead of `succ guess`.
+import Chapter1.Exercise22 (makeSearchForPrimes)
+import Chapter1.Utilities (square, divides)
 
-    smallestDivisor :: (Integral n) => n -> n
-    smallestDivisor = go 2
-        where
-            go test n
-                | square test > n = n
-                | test `divides` n  = test
-                | otherwise         = go (next test) n
-            next n = if n == 2 then 3 else n + 2
+-- | The `smallestDivisor` procedure shown at the start of this section does
+-- lots of needless testing: Afer it checks to see if the number is divisible
+-- by 2 there is no point in checking to see if it is divisible by any larger
+-- even numbers. This suggests that the values used for test-divisor should
+-- not be [2, 3, 4, 5, 6, ...], but rather [2, 3, 5, 7, 9, ...].
+--
+-- To implement this change, define a procedure `next` that returns 3 if its
+-- input is equal to 2 and otherwise returns its input plus 2. Modify the
+-- smallestDivisor procedure to use `next guess` instead of `succ guess`.
+smallestDivisor :: (Integral n) => n -> n
+smallestDivisor = go 2
+  where
+    go test n | square test > n   = n
+              | test `divides` n  = test
+              | otherwise         = go (next test) n
+    next n = if n == 2 then 3 else n + 2
 
 -- | With timed-prime-test incorporating this modified version of
--- | `smallestDivisor`, run the test for each of the 12 primes found in
--- | Exercise 1.22. Since this modification halves the number of test steps,
--- | you should expect it to run about twice as fast. Is this expectation
--- | confirmed? If not, what is the observed ratio of the speeds of the two
--- | algorithms, and how do you explain the fact that it is different from 2?
+-- `smallestDivisor`, run the test for each of the 12 primes found in
+-- Exercise 1.22. Since this modification halves the number of test steps,
+-- you should expect it to run about twice as fast. Is this expectation
+-- confirmed? If not, what is the observed ratio of the speeds of the two
+-- algorithms, and how do you explain the fact that it is different from 2?
 
-    isPrime :: (Integral n) => n -> Bool
-    isPrime n = n > 1 && n == smallestDivisor n
+isPrime :: (Integral n) => n -> Bool
+isPrime n = n > 1 && n == smallestDivisor n
 
-    searchForPrimes :: (Integral n, Show n) => n -> IO ()
-    searchForPrimes = makeSearchForPrimes isPrime
+searchForPrimes :: (Integral n, Show n) => n -> IO ()
+searchForPrimes = makeSearchForPrimes isPrime
 
 -- >>> searchForPrimes 100000
 -- 100003 *** 0.000349968s

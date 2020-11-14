@@ -1,28 +1,30 @@
 {-# OPTIONS_GHC -Wno-unused-top-binds #-}
 module Chapter1.Exercise36 (averageDamp) where
-    import Chapter1.Exercise35 (fixedPointM)
-    import Chapter1.Utilities (average)
-    import Control.Monad (ap, liftM2)
+import Chapter1.Exercise35 (fixedPointM)
+import Chapter1.Utilities (average)
+import Control.Applicative (liftA2)
+import Control.Monad (ap)
+
 -- | Modify `fixed` so that it prints the sequence of approximations it
--- | generates, using the  `newline` and `display` primitives showin in exercise
--- | 1.22. Then find a solution to x^x = 1,000 by finding a fixed point of
--- | \x -> log 1000 / log x (Use Haskell's primitive log procedure, which
--- | computes natural logarithms). Compare the number of steps this takes with
--- | and without average damping (Note that you cannot start fixedPoint with a
--- | guess of 1 as this would cause division by log 1 = 0).
+-- generates, using the  `newline` and `display` primitives showin in exercise
+-- 1.22. Then find a solution to x^x = 1,000 by finding a fixed point of
+-- \x -> log 1000 / log x (Use Haskell's primitive log procedure, which
+-- computes natural logarithms). Compare the number of steps this takes with
+-- and without average damping (Note that you cannot start fixedPoint with a
+-- guess of 1 as this would cause division by log 1 = 0).
 
-    printAndReturn :: (Show a) => a -> IO a
-    printAndReturn = liftM2 (>>) print return
+printAndReturn :: (Show a) => a -> IO a
+printAndReturn = liftA2 (>>) print return
 
-    f :: Double -> Double
-    f = (log 1000 /) . log
+f :: Double -> Double
+f = (log 1000 /) . log
 
-    averageDamp :: (Fractional a) => (a -> a) -> (a -> a)
-    averageDamp = ap average
+averageDamp :: (Fractional a) => (a -> a) -> (a -> a)
+averageDamp = ap average
 
-    solution, avgDamped :: Double -> IO Double
-    solution = fixedPointM (printAndReturn . f)
-    avgDamped = fixedPointM (printAndReturn . averageDamp f)
+solution, avgDamped :: Double -> IO Double
+solution = fixedPointM (printAndReturn . f)
+avgDamped = fixedPointM (printAndReturn . averageDamp f)
 
 -- >>> solution 5
 -- 4.29202967422018
