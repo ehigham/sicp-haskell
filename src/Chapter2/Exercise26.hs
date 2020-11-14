@@ -7,7 +7,7 @@ module Chapter2.Exercise26 () where
     y = [4..6]
 
 -- | What is the result printed by the intepreter in reponse to evaluating each
--- | of the following expressions:
+-- of the following expressions:
 -- >>> mappend x y
 -- [1,2,3,4,5,6]
 

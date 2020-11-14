@@ -1,8 +1,10 @@
 {-# OPTIONS_GHC -Wno-unused-imports -Wno-unused-top-binds #-}
 module Chapter2.Exercise25 () where
-    import Chapter2.Exercise4 (cons, car, cdr)
+
+import Chapter2.Exercise4 (cons, car, cdr)
+
 -- | Give combinations of head and  that will pick 7 from each of the
--- | following lists:
+-- following lists:
 -- >>> l1 = (cons 1 (cons 3 (cons (cons 5 7) 9)))
 -- >>> (cdr . car . cdr . cdr) l1
 -- 7
