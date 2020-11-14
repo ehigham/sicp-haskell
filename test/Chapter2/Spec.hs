@@ -16,6 +16,7 @@ import Chapter2.TExercise29
 import Chapter2.TExercise32
 import Chapter2.TExercise33
 import Chapter2.TExercise34
+import Chapter2.TExercise36
 import Test.HUnit
 
 
@@ -37,5 +38,6 @@ chapter2_tests = TestList [
     TestLabel "Exercise29" Chapter2.TExercise29.tests,
     TestLabel "Exercise32" Chapter2.TExercise32.tests,
     TestLabel "Exercise33" Chapter2.TExercise33.tests,
-    TestLabel "Exercise33" Chapter2.TExercise34.tests
+    TestLabel "Exercise34" Chapter2.TExercise34.tests,
+    TestLabel "Exercise36" Chapter2.TExercise36.tests
     ]
