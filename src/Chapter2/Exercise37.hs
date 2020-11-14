@@ -30,7 +30,7 @@ type Matrix a = [Vector a]
 
 -- | Returns the sum over i, v_i w_i
 dotProduct :: (Num a) => Vector a -> Vector a -> a
-dotProduct v w = sum $ (*) <$> v <*> w
+dotProduct = (sum .) . zipWith (*)
 
 -- | Retuns the vector t, where t = sum over j, m_{i,j} v_{j}
 dotProductM :: (Num a) => Matrix a -> Vector a -> Vector a
