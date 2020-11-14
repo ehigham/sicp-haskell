@@ -34,9 +34,9 @@ dotProduct = (sum .) . zipWith (*)
 
 -- | Retuns the vector t, where t = sum over j, m_{i,j} v_{j}
 dotProductM :: (Num a) => Matrix a -> Vector a -> Vector a
-dotProductM m v = dotProduct v <$> transpose m
+dotProductM m v = dotProduct v <$> m
 
--- | Retuns the matrix p, where p = sum over i,j, m_{i,k} n_{k,sj}
+-- | Retuns the matrix p, where p = sum over i,j, m_{i,k} n_{k,j}
 matmul :: (Num a) => Matrix a -> Matrix a -> Matrix a
 matmul m n = dotProductM m <$> transpose n
 
