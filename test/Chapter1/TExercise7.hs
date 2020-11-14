@@ -1,4 +1,4 @@
-module Chapter1.TExercise7 (chapter1Exercise7Tests) where
+module Chapter1.TExercise7 (tests) where
     import Chapter1.Exercise6 as Exercise6(sqrt')
     import Chapter1.Exercise7 as Exercise7(sqrt')
     import TestTools (assertEquals)
@@ -24,7 +24,7 @@ module Chapter1.TExercise7 (chapter1Exercise7Tests) where
         (0.0005 :: Double)
         (Exercise6.sqrt' 0.001))
 
--- | Uncomment if you like waiting 
+-- | Uncomment if you like waiting
     -- tLargeNumbers :: Test
     -- tLargeNumbers = TestCase (assertEqual
     --     "Exercise6.sqrt' failing at large numbers"
@@ -47,8 +47,8 @@ module Chapter1.TExercise7 (chapter1Exercise7Tests) where
         (Exercise7.sqrt' 1e100)
         (sqrt 1e100))
 
-    chapter1Exercise7Tests :: Test
-    chapter1Exercise7Tests = TestList [
+    tests :: Test
+    tests = TestList [
         tPowersOfTwo,
         tVsPrelude,
         tSmallNumbers,
