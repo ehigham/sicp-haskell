@@ -1,7 +1,5 @@
 module Chapter2.Exercise36 (accumulateN) where
 
-import Data.List (transpose)
-
 -- | The procedure `accumulateN` is similar to `accumulate` except it takes as
 -- its thrird argument a sequence of sequences, which are all assumed to have
 -- the same number of elements. It applies the designated accumulation procedure
@@ -13,5 +11,10 @@ import Data.List (transpose)
 -- @
 -- then the value of `accumulateN (+) 0 s` should be `[22, 26, 30]`.
 
+-- note: can use `transpose` from `Data.List`
 accumulateN :: (a -> b -> b) -> b -> [[a]] -> [b]
-accumulateN f s = fmap (foldr f s) . transpose
+accumulateN f s = go
+  where
+    go [] = []
+    go xs | any null xs = []
+          | otherwise   = foldr (f . head) s xs : go (map tail xs)
