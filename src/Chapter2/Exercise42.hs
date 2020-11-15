@@ -1,5 +1,5 @@
 module Chapter2.Exercise42 (queens) where
--- | The eight-queens puzzle" asks how to place eight queens on a chessboard
+-- | The "eight-queens puzzle" asks how to place eight queens on a chessboard
 -- so that no queen ius in check from any other (i.e. no two queens are in the
 -- same row, column or diagonal). One possible solution is shown below (X marks
 -- the position of a queen).
