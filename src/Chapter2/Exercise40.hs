@@ -1,4 +1,4 @@
-module Chpater2.Exercise40 (primeSumPairs, uniquePairs) where
+module Chapter2.Exercise40 (primeSumPairs, uniquePairs) where
 
 import Chapter1.Exercise23 (isPrime)
 

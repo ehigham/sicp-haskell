@@ -12,6 +12,7 @@ import Chapter1.Utilities (square, divides)
 -- To implement this change, define a procedure `next` that returns 3 if its
 -- input is equal to 2 and otherwise returns its input plus 2. Modify the
 -- smallestDivisor procedure to use `next guess` instead of `succ guess`.
+{-# INLINABLE smallestDivisor #-}
 smallestDivisor :: (Integral n) => n -> n
 smallestDivisor = go 2
   where
@@ -27,6 +28,7 @@ smallestDivisor = go 2
 -- confirmed? If not, what is the observed ratio of the speeds of the two
 -- algorithms, and how do you explain the fact that it is different from 2?
 
+{-# INLINABLE isPrime #-}
 isPrime :: (Integral n) => n -> Bool
 isPrime n = n > 1 && n == smallestDivisor n
 
