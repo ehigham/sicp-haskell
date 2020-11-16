@@ -43,7 +43,7 @@ module Chapter2.Exercise42 (queens) where
 -- k-1 columns, and `newRow` is a proposed row in which to place the queens in
 -- the kth column, Complete the program by implementing the representation for
 -- sets of board positions, including the procedure `adjoin`, which adjoins a
--- new (row, column) position to the set if positions. You must also write the
+-- new (row, column) position to the set of positions. You must also write the
 -- procedure `isSafe` which determines for a set of positions, whether a queen
 -- in the kth column is safe with repect to the others. (Note that we need only
 -- check if the new queen is safe - the other queens are aready guaranteed safe
