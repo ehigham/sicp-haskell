@@ -52,9 +52,9 @@ queens :: Integer -> [[(Integer, Integer)]]
 queens n = go n
   where
     go 0 = [[]]
-    go k = do
+    go k = let restOfQueens = restOfQueens in do
         position <- [(k, i) | i <- [1..n]]
-        map (adjoin position) . filter (isSafe position) $ go (pred k)
+        map (adjoin position) . filter (isSafe position) restOfQueens
     adjoin = (:)
     isSafe queen = not . any (checks queen)
     checks (x, y) (p, q) = x == p || y == q || abs (x - p) == abs (y - q)
