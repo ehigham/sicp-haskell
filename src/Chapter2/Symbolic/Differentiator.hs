@@ -5,8 +5,7 @@ import Chapter2.Symbolic.Expr (Expr(Const, Var), expr)
 
 deriv :: Expr -> Expr -> Expr
 deriv (Const _)       _         = [expr|0|]
-deriv [expr|x|]       [expr|x|] = [expr|1|]
-deriv (Var _)         [expr|x|] = [expr|0|]
+deriv (Var x)         (Var y)   = if x == y then [expr|1|] else [expr|0|]
 deriv [expr|$f + $g|] var       = [expr|$f' + $g'|]
   where
     f' = deriv f var

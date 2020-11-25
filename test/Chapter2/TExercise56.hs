@@ -31,5 +31,9 @@ tests = TestList [
     TestLabel "Exponentiation" $ TestList [
         [expr|x^(2-1)*(2*1 + x*(ln x)*0)|] ~=? deriv [expr|x^2|] [expr|x|],
         [expr|x^(x-1)*(x*1 + x*(ln x)*1)|] ~=? deriv [expr|x^x|] [expr|x|]
+        ],
+    TestLabel "Natural Log" $ TestList [
+        [expr|1/x * 1|] ~=? deriv [expr|ln x|] [expr|x|],
+        [expr|0|] ~=? deriv [expr|ln x|] [expr|y|]
         ]
     ]
