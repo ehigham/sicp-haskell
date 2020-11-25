@@ -34,6 +34,6 @@ tests = TestList [
         ],
     TestLabel "Natural Log" $ TestList [
         [expr|1/x * 1|] ~=? deriv [expr|ln x|] [expr|x|],
-        [expr|0|] ~=? deriv [expr|ln x|] [expr|y|]
+        [expr|1/x * 0|] ~=? deriv [expr|ln x|] [expr|y|]
         ]
     ]
