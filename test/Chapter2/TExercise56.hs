@@ -1,7 +1,8 @@
 {-# LANGUAGE QuasiQuotes #-}
 module Chapter2.TExercise56 (tests) where
 
-import Chapter2.Symbolic (expr, deriv)
+import Chapter2.Exercise56 (deriv)
+import Chapter2.Symbolic (expr)
 import Test.HUnit
 
 tests :: Test
