@@ -17,8 +17,8 @@ import Language.Haskell.TH.Quote (QuasiQuoter(..))
 import qualified Language.Haskell.TH.Syntax as TH
 
 import Text.Parsec.Char (alphaNum, digit, spaces, string, char)
-import Text.Parsec.Combinator (between, chainl1, many1)
-import Text.Parsec.Prim (parse)
+import Text.Parsec.Combinator (between, chainl1, eof, many1)
+import Text.Parsec.Prim (runParser)
 import Text.Parsec.String (Parser)
 
 data Expr = Const Integer
@@ -57,9 +57,11 @@ antiExprPat (AntiExpr v) = Just . return $ TH.VarP  (TH.mkName v)
 antiExprPat _            = Nothing
 
 parseExpr :: MonadFail m => String -> m Expr
-parseExpr s = case parse expression "" s of
+parseExpr s = case runParser p () "" s of
     Left err -> fail $ show err
     Right e  -> return e
+  where
+    p = do { e <- expression ; eof ; return e }
 
 lexeme :: Parser a -> Parser a
 lexeme p = do { x <- p ; spaces ; return x }

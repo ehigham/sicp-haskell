@@ -42,3 +42,41 @@ deriv [expr|$f ^ $g|] var = [expr|$f^($g - 1)*($g*$f' + $f*(ln $f)*$g')|]
     f' = deriv f var
     g' = deriv g var
 deriv _               _   = error "unknown expression type"
+
+
+-- | Exercise 2.57
+-- Suppose we want to modify the differentiation program so it works with
+-- ordinary mathematical notation, in which `+` and `*` are infix rather than
+-- prefix operators. Since the differentation program is defined in terms of
+-- abstract data, we cna modify it to work with different representations of
+-- expressions solely by chaning the predicates, selectors and constructors that
+-- define the representation of algebraic expressions on which the differentator
+-- is to operate.
+--
+-- a. Show how to do this in order to differentiate algebraic expressions
+-- presented in infix form, such as
+-- @
+--     (x + (3 * (x + (y + 2))))
+-- @
+-- To Simplify the task, assume that + and * always take two arguments and that
+-- expressions are fully parenthesised,
+--
+-- In this implementation, we just change the grammer (and parser thereof) of
+-- our expressions. Since expressions are parenthesised, we don't need to worry
+-- about operator precedence. Using definitions from `Chapter2.Symbolic.Expr`:
+-- @
+--     expression :: Parser Expr
+--     expression  = integer <|> variable <|> parens application
+--       where
+--         application = do a <- expression
+--                          f <- add <|> sub <|> multiply <|> divide
+--                          f a <$> expression
+-- @
+--
+-- b. The problem becomes substantially harder if we allow standard algebraic
+-- notation, such as (x + 3 * (x + y + 2)), which drops unnecessary parenthesis
+-- and assumes that multiplication is done before addition. Can you design
+-- appropriate predicates, selectors and constructors for this notation such
+-- that out derivative program still works?
+--
+-- Complete via grammar implementation.
