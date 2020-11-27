@@ -27,7 +27,7 @@ newtype Bag a = Bag [a]
                     )
 
 instance Set Bag where
-    adjoin a (Bag elems) = Bag (a:elems)
+    adjoin = mappend . pure
     isElem a (Bag elems) = a `elem` elems
     intersect a b = a >>= \x -> if x `isElem` b then pure x else mempty
     union = mappend
