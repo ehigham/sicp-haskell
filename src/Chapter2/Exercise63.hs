@@ -1,4 +1,3 @@
-
 module Chapter2.Exercise63
     (
         Tree (Empty, Node),
@@ -67,3 +66,6 @@ instance Applicative Tree where
     _              <*> Empty          = Empty
     (Node fl f fr) <*> (Node xl x xr) = Node (fl <*> xl) (f x) (fr <*> xr)
 
+instance Traversable Tree where
+    traverse _ Empty = pure Empty
+    traverse f (Node l k r) = Node <$> traverse f l <*> f k <*> traverse f r
