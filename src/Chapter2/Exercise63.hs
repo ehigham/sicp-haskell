@@ -10,6 +10,7 @@ module Chapter2.Exercise63
         toOrderedSet
     ) where
 
+import Data.Foldable (toList)
 import Data.Function (on)
 
 import Chapter2.Exercise61 (OrderedSet (OrderedSet))
@@ -130,13 +131,13 @@ instance Set Tree where
 
 
 toOrderedSet :: Tree a -> OrderedSet a
-toOrderedSet = OrderedSet . treeToList2
+toOrderedSet = OrderedSet . toList
 
 fromOrderedSet :: OrderedSet a -> Tree a
 fromOrderedSet (OrderedSet xs) = fromList xs
 
 instance (Eq a) => Eq (Tree a) where
-    (==) = (==) `on` treeToList2
+    (==) = (==) `on` toList
 
 instance Functor Tree where
     fmap _ Empty          = Empty
