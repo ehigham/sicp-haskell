@@ -1,7 +1,7 @@
-module Chapter2.TExercise57 (tests) where
+module Chapter2.TExercise58 (tests) where
 
 
-import Chapter2.Exercise57 (parseExpr)
+import Chapter2.Exercise58 (parseExpr)
 import Chapter2.Symbolic (BinaryOp(..), Expr(..))
 import Test.HUnit
 
