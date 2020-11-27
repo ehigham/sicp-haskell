@@ -46,13 +46,9 @@ parseExpr s = case runParser p () "" s of
            return e
 
 expression :: Parser Expr
-expression = constant <|> variable <|> antiexpr <|> parens (addmulpow <|> subdiv)
+expression = constant <|> variable <|> antiexpr <|> parens apply
   where
-    addmulpow = do f  <- add <|> multiply <|> power
-                   x  <- expression
-                   xs <- many1 expression
-                   return $ foldr1 f (x:xs)
-    subdiv    = do f <- sub <|> divide
-                   e <- expression
-                   f e <$> expression
-
+    apply = do f  <- add <|> multiply <|> power <|> sub <|> divide
+               x  <- expression
+               xs <- many1 expression
+               return $ foldl f x xs

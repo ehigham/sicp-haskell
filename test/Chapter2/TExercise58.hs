@@ -12,7 +12,7 @@ tests = TestList [
     TestLabel "Addition"       $ parseExpr "(x + y)" ~=? Just (BinaryExpr Add (Var "x") (Var "y")),
     TestLabel "Substraction"   $ parseExpr "(x - y)" ~=? Just (BinaryExpr Sub (Var "x") (Var "y")),
     TestLabel "Multiplication" $ parseExpr "(x * y)" ~=? Just (BinaryExpr Mul (Var "x") (Var "y")),
-    TestLabel "Substraction"   $ parseExpr "(x / y)" ~=? Just (BinaryExpr Div (Var "x") (Var "y")),
+    TestLabel "Divisison"      $ parseExpr "(x / y)" ~=? Just (BinaryExpr Div (Var "x") (Var "y")),
     TestLabel "Exponentiation" $ parseExpr "(x ^ y)" ~=? Just (BinaryExpr Pow (Var "x") (Var "y")),
     TestLabel "Compound Expr"  $ parseExpr "((x + y) * (c / (d ^ e)))"
         ~=? Just (BinaryExpr
