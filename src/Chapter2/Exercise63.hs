@@ -2,7 +2,7 @@
 
 module Chapter2.Exercise63
     (
-        Tree (Empty, Node),
+        Tree (Empty, Leaf, Node),
         treeToList1,
         treeToList2,
         fromList,
@@ -10,24 +10,30 @@ module Chapter2.Exercise63
         toOrderedSet
     ) where
 
+import Control.Applicative (Alternative, (<|>), empty)
 import Data.Foldable (toList)
 import Data.Function (on)
+import Data.Functor ((<&>))
 
 import Chapter2.Exercise61 (OrderedSet (OrderedSet))
 import Chapter2.Set (Set (..))
 
-data Tree a = Empty | Node (Tree a) a (Tree a)
+data Tree a = Empty
+            | Leaf a
+            | Node (Tree a) a (Tree a)
     deriving stock (Show)
 
 -- | Each of the following two procedures converts a binary tree to a list
 treeToList1 :: Tree a -> [a]
 treeToList1 Empty        = []
+treeToList1 (Leaf x)     = [x]
 treeToList1 (Node l x r) = treeToList1 l ++ (x : treeToList1 r)
 
 treeToList2 :: Tree a -> [a]
 treeToList2 = go []
   where
     go result Empty        = result
+    go result (Leaf x)     = x : result
     go result (Node l x r) = go (x : go result r) l
 
 -- | a. Do the two procedures produce the same result for every tree? If not,
@@ -59,8 +65,9 @@ treeToList2 = go []
 fromList :: [a] -> Tree a
 fromList elems = fst $ partialTree elems (length elems)
  where
-    partialTree xs 0 = (Empty, xs)
-    partialTree xs n =
+    partialTree xs     0 = (Empty, xs)
+    partialTree (x:xs) 1 = (Leaf x, xs)
+    partialTree xs     n =
         let leftSize = (n - 1) `quot` 2
             (left, nonLeft) = partialTree xs leftSize
             (right, rest) = partialTree (tail nonLeft) (n - succ leftSize)
@@ -76,26 +83,18 @@ fromList elems = fst $ partialTree elems (length elems)
 -- right branch is made from the rest.
 --
 --                           5
---                      ____/ \____
---                     /           \
---                    1             9
---                  _/ \_         _/ \_
---                 /     \       /     \
---                .       3     7      11
---                       / \   / \     / \
---                      .   . .   .   .   .
+--                        __/ \__
+--                       /       \
+--                      1         9
+--                    _/ \_     _/ \_
+--                   /     \   /     \
+--                  .       3 7      11
 --
 -- >>> fromList [1, 3..11] :: Tree Int
 -- Node
---     (Node
---         Empty
---         1
---         (Node Empty 3 Empty))
+--     (Node Empty 1 (Leaf 3))
 --      5
---      (Node
---          (Node Empty 7 Empty)
---           9
---           (Node Empty 11 Empty))
+--      (Node (Leaf 7) 9 (Leaf 11)))
 
 -- | b. What is the order of growth in the number of steps required by
 -- `fromList` to convert a list o N elements?
@@ -114,11 +113,15 @@ fromList elems = fst $ partialTree elems (length elems)
 
 instance Set Tree where
     adjoin a Empty        = pure a
+    adjoin a (Leaf x)     | a == x    = Leaf x
+                          | a < x     = Node (Leaf a) x Empty
+                          | otherwise = Node Empty x (Leaf a)
     adjoin a (Node l x r) | a == x    = Node l x r
                           | a < x     = Node (adjoin a l) x r
                           | otherwise = Node l x (adjoin a r)
 
     isElem _ Empty        = False
+    isElem a (Leaf x)     = a == x
     isElem a (Node l x r) = isElem a l || a == x || isElem a r
 
     intersect Empty _     = Empty
@@ -128,7 +131,6 @@ instance Set Tree where
     union Empty s     = s
     union s     Empty = s
     union a     b     = fromOrderedSet $ (union `on` toOrderedSet) a b
-
 
 toOrderedSet :: Tree a -> OrderedSet a
 toOrderedSet = OrderedSet . toList
@@ -140,20 +142,41 @@ instance (Eq a) => Eq (Tree a) where
     (==) = (==) `on` toList
 
 instance Functor Tree where
-    fmap _ Empty          = Empty
-    fmap f (Node l x r) = Node (fmap f l) (f x) (fmap f r)
+    fmap _ Empty        = Empty
+    fmap f (Leaf x)     = Leaf (f x)
+    fmap f (Node l x r) = Node (f <$> l) (f x) (f <$> r)
 
 instance Foldable Tree where
     foldr _ s Empty        = s
+    foldr f s (Leaf x)     = f x s
     foldr f s (Node l x r) = foldr f (f x (foldr f s r)) l
 
 instance Applicative Tree where
-    pure x = Node Empty x Empty
+    pure = Leaf
 
-    Empty          <*> _              = Empty
-    _              <*> Empty          = Empty
-    (Node fl f fr) <*> (Node xl x xr) = Node (fl <*> xl) (f x) (fr <*> xr)
+    Empty        <*> _            = Empty
+    _            <*> Empty        = Empty
+    Leaf f       <*> Leaf x       = Leaf (f x)
+    Leaf f       <*> Node l x r   = Node (f <$> l)      (f x) (f <$> r)
+    Node fl f fr <*> Leaf x       = Node (fl <&> ($ x)) (f x) (fr <&> ($ x))
+    Node fl f fr <*> Node xl x xr = Node (fl <*> xl)    (f x) (fr <*> xr)
+
+instance Alternative Tree where
+    empty = mempty
+    (<|>) = mappend
+
+instance Monad Tree where
+    Empty      >>= _ = Empty
+    Leaf x     >>= f = f x
+    Node l x r >>= f = (l >>= f) `mappend` f x `mappend` (r >>= f)
 
 instance Traversable Tree where
-    traverse _ Empty = pure Empty
+    traverse _ Empty        = pure Empty
+    traverse f (Leaf x)     = Leaf <$> f x
     traverse f (Node l k r) = Node <$> traverse f l <*> f k <*> traverse f r
+
+instance Semigroup (Tree a) where
+    (<>) = (fromList .) . (mappend `on` toList)
+
+instance Monoid (Tree a) where
+    mempty  = Empty
