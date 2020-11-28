@@ -5,12 +5,12 @@
 module Chapter2.Exercise61 ( OrderedSet (OrderedSet) ) where
 
 import Control.Applicative (Alternative)
+import Data.Foldable (toList)
 import Chapter2.Set (Set(..))
 
 newtype OrderedSet a = OrderedSet [a]
   deriving stock    (
                         Eq,
-                        Foldable,
                         Functor,
                         Traversable
                     )
@@ -27,21 +27,21 @@ instance Set OrderedSet where
     -- By analogy with isElem show how to take advantage of the ordering to
     -- produce a procedure that requires on average about half as many steps as
     -- with the unordered representation
-    adjoin a (OrderedSet elems) = OrderedSet (go [] elems)
+    adjoin a = OrderedSet . go [] . toList
       where
         go stack []     = rebuild stack [a]
         go stack (x:xs) | a == x    = rebuild stack (x:xs)
                         | a < x     = rebuild stack (a:x:xs)
                         | otherwise = go (x:stack) xs
 
-    isElem a (OrderedSet elems) = go elems
+    isElem a = go . toList
       where
         go []     = False
         go (x:xs) | a == x    = True
                   | a < x     = False
                   | otherwise = go xs
 
-    intersect (OrderedSet as) (OrderedSet bs) = OrderedSet (go as bs)
+    intersect a b = OrderedSet $ go (toList a) (toList b)
       where
         go [] _          = mempty
         go _ []          = mempty
@@ -52,7 +52,7 @@ instance Set OrderedSet where
     -- | Exercise 2.62
     -- Give a Theta(N) implementation of `union` for sets represented as
     -- ordered lists.
-    union (OrderedSet as) (OrderedSet bs) = OrderedSet (go [] as bs)
+    union a b = OrderedSet $ go [] (toList a) (toList b)
       where
         go stack [] ys         = rebuild stack ys
         go stack xs []         = rebuild stack xs
@@ -64,7 +64,11 @@ instance Set OrderedSet where
 rebuild stack rest = foldl (flip (:)) rest stack
 
 instance (Show a) => Show (OrderedSet a) where
-    show (OrderedSet elems) = "{" ++ go elems ++ "}"
+    show s = "{" ++ go (toList s) ++ "}"
       where
         go [] = ""
         go xs = foldr1 (\a b -> a ++ "," ++ b) $ map show xs
+
+instance Foldable OrderedSet where
+    foldr f s = foldr f s . toList
+    toList (OrderedSet elems) = elems
