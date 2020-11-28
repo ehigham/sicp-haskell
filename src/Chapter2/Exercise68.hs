@@ -18,10 +18,10 @@ encode (Huffman tree) = foldMap (encodeChar tree)
 -- tree at all.
 encodeChar :: Tree (HLeaf Char) -> Char -> String
 encodeChar (Leaf x)     c | c == firstChar x = []
-                          | otherwise        = error ("invalid character: " ++ [c])
+                          | otherwise        = error ("invalid char: " ++ [c])
 encodeChar (Node l x r) c | c == firstChar x = '0' : encodeChar l c
                           | otherwise        = '1' : encodeChar r c
-encodeChar _            c = error ("invalid character: " ++ [c])
+encodeChar _            _ = error "logic error"
 
 firstChar = head . toList . symbols
 
