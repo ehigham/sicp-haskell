@@ -1,9 +1,10 @@
-{-# OPTIONS_GHC -Wno-unsafe #-}
-
 module Chapter2.Exercise69 (huffman) where
 
+import Data.Foldable (toList)
+import Chapter2.Exercise61 (OrderedList)
 import Chapter2.Exercise63 (Tree(Leaf))
 import Chapter2.Exercise67 (HuffmanTree(Huffman), HLeaf(HLeaf))
+import Chapter2.Set (adjoin, fromList, singleton)
 
 -- | The following procedure takes as its argument a list of frequency-symbol
 -- pairs (where no symbol appears in more than one pair) and generates a
@@ -20,8 +21,15 @@ huffman = successiveMerge . makeLeafSet
 -- doing something wrong. You can take significant advantage of the face that
 -- we are using ordered set representation).
 
-makeLeafSet :: [(Integer, a)] -> [HuffmanTree a]
-makeLeafSet = fmap (\(w, s) -> Huffman $ Leaf (HLeaf w (pure s)))
+makeLeafSet :: (Ord a) => [(Integer, a)] -> OrderedList (HuffmanTree a)
+makeLeafSet = fromList . fmap (uncurry mk)
+  where
+    mk w s = Huffman . Leaf $ HLeaf w (singleton s)
 
-successiveMerge :: (Ord a) => [HuffmanTree a] -> HuffmanTree a
-successiveMerge = foldr1 (<>)
+successiveMerge :: (Ord a) => OrderedList (HuffmanTree a) -> HuffmanTree a
+successiveMerge = go . toList
+  where
+    go []       = mempty
+    go [x]      = x
+    go (x:y:xs) = successiveMerge $ (x <> y) `adjoin` fromList xs
+

@@ -1,13 +1,9 @@
-{-# OPTIONS_GHC -Wno-unsafe #-}
-
 module Chapter2.Exercise63
     (
         Tree (Empty, Leaf, Node),
         treeToList1,
         treeToList2,
-        fromList,
-        fromOrderedSet,
-        toOrderedSet
+        fromList
     ) where
 
 import Control.Applicative (Alternative, (<|>), empty)
@@ -15,13 +11,50 @@ import Data.Foldable (toList)
 import Data.Function (on)
 import Data.Functor ((<&>))
 
-import Chapter2.Exercise61 (OrderedSet (OrderedSet))
-import Chapter2.Set (Set (..))
-
 data Tree a = Empty
             | Leaf a
             | Node (Tree a) a (Tree a)
-    deriving stock (Show)
+    deriving stock (Eq, Ord, Show)
+
+instance Functor Tree where
+    fmap _ Empty        = Empty
+    fmap f (Leaf x)     = Leaf (f x)
+    fmap f (Node l x r) = Node (f <$> l) (f x) (f <$> r)
+
+instance Foldable Tree where
+    foldr _ s Empty        = s
+    foldr f s (Leaf x)     = f x s
+    foldr f s (Node l x r) = foldr f (f x (foldr f s r)) l
+
+instance Applicative Tree where
+    pure = Leaf
+
+    Empty        <*> _            = Empty
+    _            <*> Empty        = Empty
+    Leaf f       <*> Leaf x       = Leaf (f x)
+    Leaf f       <*> Node l x r   = Node (f <$> l)      (f x) (f <$> r)
+    Node fl f fr <*> Leaf x       = Node (fl <&> ($ x)) (f x) (fr <&> ($ x))
+    Node fl f fr <*> Node xl x xr = Node (fl <*> xl)    (f x) (fr <*> xr)
+
+instance Alternative Tree where
+    empty = mempty
+    (<|>) = mappend
+
+instance Monad Tree where
+    Empty      >>= _ = Empty
+    Leaf x     >>= f = f x
+    Node l x r >>= f = (l >>= f) `mappend` f x `mappend` (r >>= f)
+
+instance Traversable Tree where
+    traverse _ Empty        = pure Empty
+    traverse f (Leaf x)     = Leaf <$> f x
+    traverse f (Node l k r) = Node <$> traverse f l <*> f k <*> traverse f r
+
+instance Semigroup (Tree a) where
+    (<>) = (fromList .) . (mappend `on` toList)
+
+instance Monoid (Tree a) where
+    mempty  = Empty
 
 -- | Each of the following two procedures converts a binary tree to a list
 treeToList1 :: Tree a -> [a]
@@ -106,77 +139,3 @@ fromList elems = fst $ partialTree elems (length elems)
 -- T(N) = 2 * T(N/2) + O(1)
 -- T(N) = O(N)
 --
-
--- | Exercise 2.65
--- Use the results of exercises 2.63 and 2.64 to give an O(N) implementation
--- for `union` and `intersect` for sets implemented as (balanced) binary trees
-
-instance Set Tree where
-    adjoin a Empty        = pure a
-    adjoin a (Leaf x)     | a == x    = Leaf x
-                          | a < x     = Node (Leaf a) x Empty
-                          | otherwise = Node Empty x (Leaf a)
-    adjoin a (Node l x r) | a == x    = Node l x r
-                          | a < x     = Node (adjoin a l) x r
-                          | otherwise = Node l x (adjoin a r)
-
-    isElem _ Empty        = False
-    isElem a (Leaf x)     = a == x
-    isElem a (Node l x r) = isElem a l || a == x || isElem a r
-
-    intersect Empty _     = Empty
-    intersect _     Empty = Empty
-    intersect a     b     = fromOrderedSet $ (intersect `on` toOrderedSet) a b
-
-    union Empty s     = s
-    union s     Empty = s
-    union a     b     = fromOrderedSet $ (union `on` toOrderedSet) a b
-
-toOrderedSet :: Tree a -> OrderedSet a
-toOrderedSet = OrderedSet . toList
-
-fromOrderedSet :: OrderedSet a -> Tree a
-fromOrderedSet (OrderedSet xs) = fromList xs
-
-instance (Eq a) => Eq (Tree a) where
-    (==) = (==) `on` toList
-
-instance Functor Tree where
-    fmap _ Empty        = Empty
-    fmap f (Leaf x)     = Leaf (f x)
-    fmap f (Node l x r) = Node (f <$> l) (f x) (f <$> r)
-
-instance Foldable Tree where
-    foldr _ s Empty        = s
-    foldr f s (Leaf x)     = f x s
-    foldr f s (Node l x r) = foldr f (f x (foldr f s r)) l
-
-instance Applicative Tree where
-    pure = Leaf
-
-    Empty        <*> _            = Empty
-    _            <*> Empty        = Empty
-    Leaf f       <*> Leaf x       = Leaf (f x)
-    Leaf f       <*> Node l x r   = Node (f <$> l)      (f x) (f <$> r)
-    Node fl f fr <*> Leaf x       = Node (fl <&> ($ x)) (f x) (fr <&> ($ x))
-    Node fl f fr <*> Node xl x xr = Node (fl <*> xl)    (f x) (fr <*> xr)
-
-instance Alternative Tree where
-    empty = mempty
-    (<|>) = mappend
-
-instance Monad Tree where
-    Empty      >>= _ = Empty
-    Leaf x     >>= f = f x
-    Node l x r >>= f = (l >>= f) `mappend` f x `mappend` (r >>= f)
-
-instance Traversable Tree where
-    traverse _ Empty        = pure Empty
-    traverse f (Leaf x)     = Leaf <$> f x
-    traverse f (Node l k r) = Node <$> traverse f l <*> f k <*> traverse f r
-
-instance Semigroup (Tree a) where
-    (<>) = (fromList .) . (mappend `on` toList)
-
-instance Monoid (Tree a) where
-    mempty  = Empty

@@ -1,33 +1,20 @@
-{-# LANGUAGE DeriveTraversable #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# OPTIONS_GHC -Wno-unsafe #-}
+{-# LANGUAGE DerivingVia #-}
 
-module Chapter2.Exercise61 ( OrderedSet (OrderedSet) ) where
+module Chapter2.Exercise61 (OrderedList) where
 
-import Control.Applicative (Alternative)
 import Data.Foldable (toList)
 import Chapter2.Set (Set(..))
 
-newtype OrderedSet a = OrderedSet [a]
-  deriving stock    (
-                        Eq,
-                        Functor,
-                        Traversable
-                    )
-  deriving newtype  (
-                        Applicative,
-                        Alternative,
-                        Monad,
-                        Monoid,
-                        Semigroup
-                    )
+newtype OrderedList a = OrderedList [a]
+  deriving stock (Eq, Ord)
+  deriving Foldable via []
 
-instance Set OrderedSet where
+instance Set OrderedList where
     -- | Give an implementation of `adjoin` using the ordered representation.
     -- By analogy with isElem show how to take advantage of the ordering to
     -- produce a procedure that requires on average about half as many steps as
     -- with the unordered representation
-    adjoin a = OrderedSet . go [] . toList
+    adjoin a = OrderedList . go [] . toList
       where
         go stack []     = rebuild stack [a]
         go stack (x:xs) | a == x    = rebuild stack (x:xs)
@@ -41,7 +28,9 @@ instance Set OrderedSet where
                   | a < x     = False
                   | otherwise = go xs
 
-    intersect a b = OrderedSet $ go (toList a) (toList b)
+    fromList = foldr adjoin mempty
+
+    intersect a b = OrderedList $ go (toList a) (toList b)
       where
         go [] _          = mempty
         go _ []          = mempty
@@ -52,7 +41,7 @@ instance Set OrderedSet where
     -- | Exercise 2.62
     -- Give a Theta(N) implementation of `union` for sets represented as
     -- ordered lists.
-    union a b = OrderedSet $ go [] (toList a) (toList b)
+    union a b = OrderedList $ go [] (toList a) (toList b)
       where
         go stack [] ys         = rebuild stack ys
         go stack xs []         = rebuild stack xs
@@ -63,12 +52,15 @@ instance Set OrderedSet where
 -- rebuild the ordered list by appending the rest to the reversed stack
 rebuild stack rest = foldl (flip (:)) rest stack
 
-instance (Show a) => Show (OrderedSet a) where
+instance (Show a) => Show (OrderedList a) where
     show s = "{" ++ go (toList s) ++ "}"
       where
         go [] = ""
         go xs = foldr1 (\a b -> a ++ "," ++ b) $ map show xs
 
-instance Foldable OrderedSet where
-    foldr f s = foldr f s . toList
-    toList (OrderedSet elems) = elems
+instance (Ord a) => Semigroup (OrderedList a) where
+    (<>) = union
+
+instance (Ord a) => Monoid (OrderedList a) where
+    mempty = OrderedList mempty
+

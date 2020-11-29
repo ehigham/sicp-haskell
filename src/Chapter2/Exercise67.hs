@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -Wno-unsafe  #-}
-
 module Chapter2.Exercise67
     (
         HLeaf (HLeaf, weight, symbols),
@@ -13,23 +11,28 @@ import Data.Foldable (toList)
 import Data.Function (on)
 
 import Chapter2.Exercise63 (Tree (Empty, Leaf, Node))
+import Chapter2.Exercise65 (TreeSet)
+import Chapter2.Set (fromList, union)
 
 data HLeaf a = HLeaf { weight  :: Integer
-                     , symbols :: [a]
+                     , symbols :: TreeSet a
                      }
   deriving stock (Eq, Show)
 
 instance (Eq a) => Ord (HLeaf a) where
     compare = compare `on` weight
 
-newtype HuffmanTree a = Huffman (Tree (HLeaf a))
+newtype HuffmanTree a = Huffman { getTree :: Tree (HLeaf a) }
   deriving stock (Eq, Show)
+
+instance (Eq a) => Ord (HuffmanTree a) where
+    compare = compare `on` (hGet weight 0 . getTree )
 
 instance (Ord a) => Semigroup (HuffmanTree a) where
     (Huffman a) <> (Huffman b) = Huffman $ Node a (HLeaf w s) b
       where
         w = hGet weight 0 a + hGet weight 0 b
-        s = hGet symbols mempty a ++ hGet symbols mempty b
+        s = hGet symbols mempty a `union` hGet symbols mempty b
 
 instance (Ord a) => Monoid (HuffmanTree a) where
     mempty = Huffman mempty
@@ -57,9 +60,9 @@ decode (Huffman tree) = go tree . fmap next
 -- message
 
 sampleTree :: HuffmanTree Char
-sampleTree = Huffman (Leaf (HLeaf 4 "A"))
-          <> Huffman (Leaf (HLeaf 2 "B"))
-          <> Huffman (Leaf (HLeaf 1 "D"))
-          <> Huffman (Leaf (HLeaf 1 "C"))
+sampleTree = Huffman (Leaf (HLeaf 4 (fromList "A")))
+          <> Huffman (Leaf (HLeaf 2 (fromList "B")))
+          <> Huffman (Leaf (HLeaf 1 (fromList "D")))
+          <> Huffman (Leaf (HLeaf 1 (fromList "C")))
 -- >>> decode sampleTree "0110010101110"
 -- "ADABBCA"

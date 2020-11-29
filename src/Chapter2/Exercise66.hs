@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -Wno-unsafe #-}
-
 module Chapter2.Exercise66 (lookup, Known) where
 
 import Prelude hiding (lookup)

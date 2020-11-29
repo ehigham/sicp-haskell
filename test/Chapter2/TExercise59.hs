@@ -1,13 +1,13 @@
 module Chapter2.TExercise59 (tests) where
 
-import Chapter2.Exercise59 (UnorderedSet(..))
+import Chapter2.Exercise59 (UnorderedList)
 import Chapter2.Set
 import Test.HUnit
 
-set :: [Int] -> UnorderedSet Int
-set = UnorderedSet
+set :: [Int] -> UnorderedList Int
+set = fromList
 
-emptyset :: UnorderedSet Int
+emptyset :: UnorderedList Int
 emptyset = mempty
 
 tests :: Test

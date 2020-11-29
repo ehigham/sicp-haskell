@@ -1,13 +1,13 @@
 module Chapter2.TExercise61 (tests) where
 
-import Chapter2.Exercise61 (OrderedSet(..))
+import Chapter2.Exercise61 (OrderedList)
 import Chapter2.Set
 import Test.HUnit
 
-set :: [Int] -> OrderedSet Int
-set = OrderedSet
+set :: [Int] -> OrderedList Int
+set = fromList
 
-emptyset :: OrderedSet Int
+emptyset :: OrderedList Int
 emptyset = mempty
 
 tests :: Test

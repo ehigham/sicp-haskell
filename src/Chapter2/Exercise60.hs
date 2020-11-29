@@ -2,10 +2,10 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# OPTIONS_GHC -Wno-unsafe #-}
 
-module Chapter2.Exercise60 ( Bag (Bag) ) where
+module Chapter2.Exercise60 (Bag (Bag)) where
 
 import Control.Applicative (Alternative)
-import Chapter2.Set (Set(..))
+import Chapter2.Set
 
 -- | We specified that a set would be represented as a list with no duplicates.
 -- now suppose we allow duplicates. Fir instance, the set {1, 2, 3} could be
@@ -29,6 +29,7 @@ newtype Bag a = Bag [a]
 instance Set Bag where
     adjoin = mappend . pure
     isElem a (Bag elems) = a `elem` elems
+    fromList = foldr adjoin mempty
     intersect a b = a >>= \x -> if x `isElem` b then pure x else mempty
     union = mappend
 
@@ -38,8 +39,12 @@ instance (Show a) => Show (Bag a) where
         go [] = ""
         go xs = foldr1 (\a b -> a ++ "," ++ b) $ map show xs
 
-instance (Ord a, Eq a) => Eq (Bag a) where
-    a == b = and $ fmap (`isElem` a) b
+instance (Ord a) => Eq (Bag a) where
+    a == b = length a == length b
+          && foldl (isMember a) True b
+          && foldl (isMember b) True a
+      where
+        isMember set tf x = tf && x `isElem` set
 
 -- | How does the efficiency of each compare with the corresponding procedure
 -- for the non-duplicate representation? Are there applications for which you
