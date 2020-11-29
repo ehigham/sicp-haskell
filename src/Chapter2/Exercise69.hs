@@ -2,7 +2,6 @@ module Chapter2.Exercise69 (huffman) where
 
 import Data.Foldable (toList)
 import Chapter2.Exercise61 (OrderedList)
-import Chapter2.Exercise63 (Tree(Leaf))
 import Chapter2.Exercise67 (HuffmanTree(Huffman), HLeaf(HLeaf))
 import Chapter2.Set (fromList, singleton)
 
@@ -24,7 +23,7 @@ huffman = successiveMerge . makeLeafSet
 makeLeafSet :: (Ord a) => [(Integer, a)] -> OrderedList (HuffmanTree a)
 makeLeafSet = fromList . fmap (uncurry mk)
   where
-    mk w s = Huffman . Leaf $ HLeaf w (singleton s)
+    mk w s = Huffman . pure $ HLeaf w (singleton s)
 
 successiveMerge :: (Ord a) => OrderedList (HuffmanTree a) -> HuffmanTree a
 successiveMerge = go . toList
