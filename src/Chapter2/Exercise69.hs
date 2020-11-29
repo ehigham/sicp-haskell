@@ -3,7 +3,7 @@ module Chapter2.Exercise69 (huffman) where
 import Data.Foldable (toList)
 import Chapter2.Exercise61 (OrderedList)
 import Chapter2.Exercise67 (HuffmanTree(Huffman), HLeaf(HLeaf))
-import Chapter2.Set (fromList, singleton)
+import Chapter2.Set (adjoin, fromList, singleton)
 
 -- | The following procedure takes as its argument a list of frequency-symbol
 -- pairs (where no symbol appears in more than one pair) and generates a
@@ -30,5 +30,5 @@ successiveMerge = go . toList
   where
     go []       = mempty
     go [x]      = x
-    go (x:y:xs) = successiveMerge . fromList $ x <> y : xs
+    go (x:y:xs) = successiveMerge $ (x <> y) `adjoin` fromList xs
 
