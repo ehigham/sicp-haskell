@@ -1,0 +1,25 @@
+module Chapter2.Exercise71 () where
+-- | Suppose we have a Huffman tree for an alphabet of n symbols and that the
+-- relative frequencies of the symbols are
+-- @
+--     [x | n <- [1..], let x = 2^(n-1)]
+-- @
+-- Sketch the tree for n=5 and n=10.
+--
+--                      (31, {a,b,c,d,e})
+--                        /             \
+--                    (15, {a,b,c,d})    (16, {e})
+--                      /           \
+--                   (7, {a,b,c})    (8, {d})
+--                    /         \
+--                 (3, {a,b})    (4, {c})
+--                  /       \
+--               (1, {a})    (2, {b})
+--
+-- The tree for n=10 will look identical, only deeper.
+--
+-- In such a tree (for general n) how many bits are required to encode the most
+-- frequent symbol? The least frequent symbol?
+--
+-- MFS: 1 bit
+-- LFS: n-1 bits
