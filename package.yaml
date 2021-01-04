@@ -21,6 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/ehig
 
 dependencies:
 - base >= 4.7 && < 5
+- containers >= 0.6
 - mtl >= 2.2
 - parsec >= 3.1
 - syb >= 0.4

@@ -4,6 +4,7 @@
 module Chapter2.Symbolic
     (
         BinaryOp(..),
+        UnaryOp(..),
         Expr(..),
         add,
         antiexpr,
