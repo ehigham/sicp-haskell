@@ -44,6 +44,3 @@ makeFromRealImag real imag = Complex { realPart  = real
                                      , magnitude = sqrt (square real + square imag)
                                      , angle     = atan (imag / real)
                                      }
-
--- >>> let x = makeFromRealImag 3 5 in x == makeFromMagAng (magnitude x) (angle x)
--- True
